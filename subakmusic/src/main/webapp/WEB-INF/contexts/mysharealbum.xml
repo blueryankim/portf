@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="MyShareAlbumDao" class="subak.mysharealbum.dao.MyShareAlbumDaoImpl"
+	p:sqlMapClient-ref="BaseDBSqlMap"/>
+
+<bean id="MyShareAlbumService" class="subak.mysharealbum.service.MyShareAlbumServiceImpl"	
+	p:mysharealbumdao-ref="MyShareAlbumDao"/>
+	
+<bean id="MyShareAlbumController" class="subak.mysharealbum.controller.MyShareAlbumController"
+	p:mysharealbumservice-ref="MyShareAlbumService"/>
+			
+<bean id="DeleteMyShareAlbumDao" class="subak.mysharealbum.dao.DeleteMyShareAlbumDaoImpl"
+	p:sqlMapClient-ref="BaseDBSqlMap"/>
+<bean id="DeleteMyShareAlbumService" class="subak.mysharealbum.service.DeleteMyShareAlbumServiceImpl"
+	p:deletemysharealbumdao-ref="DeleteMyShareAlbumDao"/>
+<bean id="DeleteMyShareAlbumController" class="subak.mysharealbum.controller.DeleteMyShareAlbumController"
+	p:deletemysharealbumservice-ref="DeleteMyShareAlbumService"/>	
+			
+</beans>

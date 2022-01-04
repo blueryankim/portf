@@ -1,0 +1,92 @@
+@CHARSET "EUC-KR";
+
+#writediv{
+	position:relative;
+	top:10px;
+	left:10px;
+	
+}
+#writtendiv{
+
+	
+	
+}
+#box_file_wrap{ 
+	position:relative; 
+	margin:0; 
+	padding:0; 
+}
+#wrap{
+	width:260px; 
+	position:relative;
+}
+
+
+#fileadd { 
+	filter:alpha(opacity:0); 
+	opacity:0; 
+	width:35px;
+	height:35px;
+}
+
+#imagezone{
+
+	position:relative;
+	background:white;
+
+}
+
+#function{
+
+	position:relative;
+	background:#f1f1f2;
+	margin:-3px 0px;
+	
+}
+
+#camera{
+	position:absolute;
+	left:5px;
+}
+
+#openscope{
+	position:absolute;
+	right:80px;
+	bottom:8px;
+}
+
+#writingupload{
+	position:absolute;
+	background: #4086cd;
+	color: white;
+	right:10px;
+	bottom:6px;
+	
+}
+
+#adddiv{
+	position:absolute;
+}
+
+#textzone{
+	border-color:#d0d0d0;
+	border-width:1px;
+	border-style:inset;
+	
+}
+
+.placeholder{
+	color:grey;
+}
+
+#writingandphoto{
+	
+	font-size:15px;
+}
+
+#click{
+	
+	width:450px;
+	height:40px;
+	
+}

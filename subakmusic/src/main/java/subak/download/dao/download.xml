@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="downloadSql">
+	<typeAlias alias="DownloadVO" type="subak.download.model.DownloadVO" />
+	<resultMap id="DownloadResult" class="DownloadVO">
+		<result property="path" column="M_PATH" />
+		<result property="songname" column="M_TITLE" />
+		<result property="singer" column="M_SINGER" />
+	</resultMap>
+	
+	<select id="getSongInfor" parameterClass="java.lang.Integer" resultMap="DownloadResult">
+		select M_PATH,M_TITLE,M_SINGER from MUSICLIST where M_NUM=#songnum#
+	</select>	
+		</sqlMap>

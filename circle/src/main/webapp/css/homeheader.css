@@ -1,0 +1,75 @@
+@CHARSET "UTF-8";
+
+
+#headerdiv {
+	width: 1263px;
+	height: 50px;
+	background: #4086cd;
+	color: white;
+	position: relative;
+}
+
+#logo {
+	position:absolute;
+	left:10px;
+	top: 10px;
+}
+
+
+#requestfriend{
+	position:absolute;
+	left:125px;
+	bottom:10px;
+	
+}
+
+#notification{
+	position:absolute;
+	left:160px;
+	bottom:10px;
+
+}
+
+#findfriend {
+	width: 400px;
+	height: 20px;
+	position: absolute;
+	left: 270px;
+	bottom: 13px;
+}
+
+#friendsearch {
+	position: absolute;
+	background: #4086cd;
+	border: 0px;
+	color: white;
+	left: 680px;
+	bottom: 16px;
+}
+
+DIV#list_item_container {
+	
+	height: 60px;
+	padding: 5px;
+}
+
+DIV#image {
+	width: 70px;
+	height: 60px;
+	float: left;
+}
+
+DIV#description {
+	font-style: italic;
+	font-size: 15px;
+	color: gray;
+}
+#labelwrap{
+	margin-top:13px;
+	margin-left:100px;
+	
+}
+#profileimg{
+	width: 70px;
+	height: 60px;
+}

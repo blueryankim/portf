@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+	<!-- 자유 게시판 -->
+	<!-- Dao -->
+	<bean id="fibatisCommentDao" class="subak.fcomment.dao.FIbatisCommentDao"
+		p:sqlMapClient-ref="BaseDBSqlMap" />
+	<!-- Controller -->
+	<bean id="FCommentListController" class="subak.fcomment.controller.FCommentListController"
+		p:commentListImpl-ref="FCommentListImpl" />
+	<bean id="FCommentWriteController" class="subak.fcomment.controller.FCommentWriteController"
+		p:commentWriteImpl-ref="FCommentWriteImpl" />
+	<bean id="FCommentUpdateController" class="subak.fcomment.controller.FCommentUpdateController"
+		p:commentUpdateImpl-ref="FCommentUpdateImpl" />
+	<bean id="FCommentDeleteController" class="subak.fcomment.controller.FCommentDeleteController"
+		p:commentDeleteImpl-ref="FCommentDeleteImpl" />
+	<!-- Service -->
+	<bean id="FCommentListImpl" class="subak.fcomment.service.FCommentListImpl"
+		p:commentDao-ref="fibatisCommentDao" />
+	<bean id="FCommentWriteImpl" class="subak.fcomment.service.FCommentWriteImpl"
+		p:commentDao-ref="fibatisCommentDao" />
+	<bean id="FCommentUpdateImpl" class="subak.fcomment.service.FCommentUpdateImpl"
+		p:commentDao-ref="fibatisCommentDao" />
+	<bean id="FCommentDeleteImpl" class="subak.fcomment.service.FCommentDeleteImpl"
+		p:commentDao-ref="fibatisCommentDao" />
+
+
+
+	<!-- Q&A 게시판 -->
+
+	<!-- Dao -->
+	<bean id="qibatisCommentDao" class="subak.qcomment.dao.QIbatisCommentDao"
+		p:sqlMapClient-ref="BaseDBSqlMap" />
+	<!-- Controller -->
+	<bean id="QCommentListController" class="subak.qcomment.controller.QCommentListController"
+		p:commentListImpl-ref="QCommentListImpl" />
+	<bean id="QCommentWriteController" class="subak.qcomment.controller.QCommentWriteController"
+		p:commentWriteImpl-ref="QCommentWriteImpl" />
+	<bean id="QCommentUpdateController" class="subak.qcomment.controller.QCommentUpdateController"
+		p:commentUpdateImpl-ref="QCommentUpdateImpl" />
+	<bean id="QCommentDeleteController" class="subak.qcomment.controller.QCommentDeleteController"
+		p:commentDeleteImpl-ref="QCommentDeleteImpl" />
+	<!-- Service -->
+	<bean id="QCommentListImpl" class="subak.qcomment.service.QCommentListImpl"
+		p:commentDao-ref="qibatisCommentDao" />
+	<bean id="QCommentWriteImpl" class="subak.qcomment.service.QCommentWriteImpl"
+		p:commentDao-ref="qibatisCommentDao" />
+	<bean id="QCommentUpdateImpl" class="subak.qcomment.service.QCommentUpdateImpl"
+		p:commentDao-ref="qibatisCommentDao" />
+	<bean id="QCommentDeleteImpl" class="subak.qcomment.service.QCommentDeleteImpl"
+		p:commentDao-ref="qibatisCommentDao" />
+
+</beans>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="linkmediaSql">
+	<typeAlias alias="LinkMediaVO" type="subak.linkmedia.model.LinkMediaVO" />
+	<resultMap id="LinkMediaResult" class="LinkMediaVO">
+		<result property="linkid" column="LM_LINKID"/>
+		<result property="songname" column="LM_LINKNAME" />
+		<result property="linkaddress" column="LM_LINKADDRESS" />
+		<result property="content" column="LM_CONTENT" />
+		</resultMap>
+		
+		
+
+		<select id="getPopLinkMediaList" parameterClass="java.util.Map" resultMap="LinkMediaResult">
+		
+		<![CDATA[ select lm_linkid,lm_linkname,lm_linkaddress,lm_content from (select rownum rnum, lm_linkid,lm_linkname,lm_linkaddress,lm_content from (select * from  linkmedia where lm_genre like '%'||'팝'||'%' order by lm_regdate desc)) where rnum >= #startRow# and rnum <= #endRow#
+]]>
+		</select>
+		
+		<select id="getGayoLinkMediaList" parameterClass="java.util.Map" resultMap="LinkMediaResult">
+		
+		<![CDATA[ select lm_linkid,lm_linkname,lm_linkaddress,lm_content from (select rownum rnum, lm_linkid,lm_linkname,lm_linkaddress,lm_content from (select * from  linkmedia where not lm_genre like '%'||'팝'||'%' order by lm_regdate desc)) where rnum >= #startRow# and rnum <= #endRow#
+]]>
+		
+		</select>
+		
+		<select id="getPopLinkMediaCount" resultClass="java.lang.Integer">
+			
+			select count(*) from LINKMEDIA where lm_genre='팝송'
+		</select>
+		
+		<select id="getGayoLinkMediaCount" resultClass="java.lang.Integer">
+			select count(*) from LINKMEDIA where lm_genre='가요'
+		
+		</select>
+		
+		
+		<select id="getChoosedMediaAddr" parameterClass="java.lang.Integer" resultClass="java.lang.String">
+			select LM_LINKADDRESS from LINKMEDIA where LM_LINKID=#choosedmediaid#
+		</select>
+		
+	</sqlMap>

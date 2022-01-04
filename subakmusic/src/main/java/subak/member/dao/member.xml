@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberSql">
+
+	<typeAlias alias="mem_MemberVO" type="subak.member.model.MemberVO" />
+	<resultMap id="MemberResult" class="mem_MemberVO">
+		<result property="id" column="ID" />
+		<result property="name" column="NAME" />
+		<result property="pass" column="PASS" />
+		<result property="phone1" column="PHONE1" />
+		<result property="phone2" column="PHONE2" />
+		<result property="phone3" column="PHONE3" />
+		<result property="email" column="EMAIL" />
+		<result property="birth1" column="BIRTH1" />
+		<result property="birth2" column="BIRTH2" />
+		<result property="birth3" column="BIRTH3" />
+		<result property="f_singer" column="F_SINGER" />
+		<result property="f_genre" column="F_GENRE" />
+		<result property="point" column="POINT" />
+		<result property="regdate" column="REGDATE" />
+	</resultMap>
+
+	<!-- 회원가입(insert) -->
+	<insert id="insertMember" parameterClass="mem_MemberVO">
+		<![CDATA[
+		insert into MEMBER(id, name, pass, phone1, phone2, phone3,
+			email, birth1, birth2, birth3,
+			f_singer, f_genre, point, regdate)
+		values(#id#, #name#, #pass#, #phone1#, #phone2#, #phone3#,
+			#email#, #birth1#, #birth2#, #birth3#,
+			#f_singer#, #f_genre#, #point#, sysdate)
+		]]>
+	</insert>
+
+	<select id="selectId" parameterClass="java.lang.String"
+		resultClass="Integer">
+		<![CDATA[
+		select count(*) from MEMBER
+		where id=#id# 
+		]]>
+	</select>
+	
+	<select id="getAllCount" resultClass="Integer">
+		select count(*) from MEMBER
+	</select>
+
+	<select id="getIdCount" parameterClass="java.util.Map" resultClass="Integer">
+		select count(*) from MEMBER where id = #search_text#
+	</select>
+
+	<select id="getNameCount" parameterClass="java.util.Map" resultClass="Integer">
+		select count(*) from MEMBER where name = #search_text#
+	</select>
+	<select id="getList" parameterClass="java.util.Map" resultMap="MemberResult">
+	 <![CDATA[
+	 	select * from (select rownum rnum, id, name, pass, phone1, phone2, phone3,
+			email, birth1, birth2, birth3,
+			f_singer, f_genre, point, regdate from (select * from MEMBER order by regdate desc))
+			where rnum >= #startRow# and rnum <= #endRow#
+	 ]]>
+	</select>
+
+	<select id="getIdList" parameterClass="java.util.Map" resultMap="MemberResult">
+		<![CDATA[
+			select * from (select rownum rnum, id, name, pass, phone1, phone2, phone3,
+			email, birth1, birth2, birth3,
+			f_singer, f_genre, point, regdate
+			from (select * from MEMBER
+			where id=#search_text# order by id desc))
+			where rnum >= #startRow# and rnum <= #endRow#
+		]]>
+	</select>
+
+	<select id="getNameList" parameterClass="java.util.Map" resultMap="MemberResult">
+		<![CDATA[
+			select * from (select rownum rnum, id, name, pass, phone1, phone2, phone3,
+			email, birth1, birth2, birth3,
+			f_singer, f_genre, point, regdate
+			from (select * from MEMBER
+			where name=#search_text# order by name desc))
+			where rnum >= #startRow# and rnum <= #endRow#
+		]]>
+	</select>
+	
+	
+	<delete id="deleteMember" parameterClass="java.lang.String">
+		<![CDATA[
+			delete from MEMBER where id=#id#
+		]]>
+		
+	</delete>
+</sqlMap>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+    <sqlMap namespace="uploadsharealbumSql">
+	<typeAlias alias="UploadShareAlbumVO" type="subak.uploadsharealbum.model.UploadShareAlbumVO" />
+	<resultMap id="UploadShareAlbumResult" class="UploadShareAlbumVO">
+		<result property="title" column="A_SUBJECT" />
+		<result property="id" column="A_WRITER" />
+		<result property="inturoduction" column="A_CONTENT" />
+		<result property="imgpath" column="A_IMAGEPATH" />
+		<result property="mysongchoice" column="A_LIST" />
+		<result property="regdate" column="A_REGDATE"/>
+		
+	</resultMap>
+	
+	<insert id="uploadShareAlbum" parameterClass="UploadShareAlbumVO">
+	<![CDATA[
+	insert into ALBUM(a_num,a_subject, a_writer, a_content, a_imagepath, a_list, a_regdate) 
+		values(ALBUM_SEQ.nextval,#title#,#id#,
+			#inturoduction#,#imgpath#,#mysongchoice#,#regdate#)
+	]]>
+	</insert>
+	
+	<select id="getShareAlbumNum" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+	select A_NUM from (SELECT * from ALBUM where A_WRITER=#id# order by A_NUM desc) WHERE ROWNUM=1
+	</select>
+	
+	</sqlMap>

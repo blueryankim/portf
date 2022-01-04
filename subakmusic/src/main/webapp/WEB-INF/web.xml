@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	
+	<display-name>Main</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<context-param>
+		<param-name>defaultHtmlEscape</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/contexts/applicationContext.xml
+			<!-- 박성희 -->
+			/WEB-INF/contexts/myPageContext.xml
+			/WEB-INF/contexts/errorpageContext.xml
+			<!-- 박소연 -->
+			/WEB-INF/contexts/memberContext.xml
+			<!-- 우동환 -->
+			/WEB-INF/contexts/helpContext.xml
+			/WEB-INF/contexts/homeContext.xml
+			/WEB-INF/contexts/adminContext.xml
+			<!-- 김승우 -->
+			/WEB-INF/contexts/chartContext.xml
+			/WEB-INF/contexts/songuploadContext.xml
+			/WEB-INF/contexts/musicplayerContext.xml
+			/WEB-INF/contexts/albuminforContext.xml
+			/WEB-INF/contexts/albuminforcommentContext.xml
+			/WEB-INF/contexts/uploadlinkContext.xml
+			/WEB-INF/contexts/linkmediaContext.xml
+			/WEB-INF/contexts/songpurchaseContext.xml
+			/WEB-INF/contexts/takemypointContext.xml
+			/WEB-INF/contexts/checkmydownContext.xml
+			/WEB-INF/contexts/searchmusicContext.xml
+			/WEB-INF/contexts/uploadsharealbum.xml
+			/WEB-INF/contexts/sharealbumlist.xml
+			/WEB-INF/contexts/mysharealbum.xml
+			/WEB-INF/contexts/uprecommendationContext.xml
+			/WEB-INF/contexts/pointAccumulationContext.xml
+			<!-- 임광혁 -->
+			/WEB-INF/contexts/boardContext.xml
+			/WEB-INF/contexts/commentContext.xml
+		</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>dispatcherInternal</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcherInternal</servlet-name>
+		<url-pattern>/jsp/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>dispatcherNonHtml</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>dispatcherNonHtml</servlet-name>
+		<url-pattern>/download/*</url-pattern>
+	</servlet-mapping>
+	
+</web-app>

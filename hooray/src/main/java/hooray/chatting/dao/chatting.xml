@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+  	<sqlMap namespace="chattingSql">
+  
+ 	<typeAlias alias="ChattingVO" type="hooray.chatting.model.ChattingVO"/>
+ 	<resultMap id="ChattingResult" class="ChattingVO">
+ 	<result property="email" column="EMAIL"/>
+ 	<result property="name" column="NAME"/>
+ 	<result property="content" column="CONTENT"/>
+ 	<result property="regdate" column="REGDATE"/>
+ 	</resultMap>
+	
+	<typeAlias alias="DateVO" type="hooray.chatting.model.DateVO"/>
+	<resultMap id="DateResult" class="DateVO">
+	<result property="chattingLogDate" column="CHLOGDATE"/>		
+	<result property="projectAppDate" column="APPDATE"/>
+	</resultMap>	
+	
+	<select id="getAppDate" parameterClass="java.util.Map" resultClass="java.util.Date">
+		<![CDATA[ select appdate from H_PROJECT_PEOPLE where email=#email# and p_num=#projectNum#]]>
+	
+	</select>
+	
+	<select id="getChattingList" parameterClass="java.util.Map" resultMap="ChattingResult">
+	<![CDATA[	SELECT * from (SELECT * FROM (SELECT ROWNUM rnum,email,NAME,content,regdate FROM (SELECT * FROM H_CHATTING WHERE regdate>=#appdate# AND regdate <= SYSDATE and p_num=#projectNum# ORDER BY regdate desc)) WHERE rnum >= #start_row# AND rnum <=#end_row#) ORDER BY regdate asc]]>
+	
+	</select>
+	
+	<select id="getChattingListAjax" parameterClass="java.util.Map" resultMap="ChattingResult">
+	<![CDATA[	SELECT * FROM H_CHATTING WHERE regdate>#chalatestdate# and p_num=#projectNum# ORDER BY regdate asc]]>
+	
+
+	</select>
+	
+	<select id="getChattingLogDate" parameterClass="java.util.Map" resultClass="java.util.Date">
+		<![CDATA[select chlogdate from H_PROJECT_PEOPLE where email=#email# and p_num=#projectNum# ]]>
+	
+	</select>
+	
+	<select id="getUnreadChaCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		<![CDATA[select count(*) from H_CHATTING where p_num=#projectNum# and regdate <= sysdate and regdate >=#chattingLogDate#]]>
+	
+	</select>
+	
+	<select id="getProjectOwner" parameterClass="java.lang.Integer" resultClass="java.lang.String">
+		select email from H_PROJECT_BOARD where p_num=#projectNum#
+	
+	</select>
+	
+	<insert id="uploadChattingMessage" parameterClass="ChattingVO">
+	<![CDATA[	insert into H_CHATTING(c_num,p_num,email,name,content,regdate) values(H_CHATTING_SEQ.nextval,#pnum#,#email#,#name#,#content#,sysdate)]]>
+	
+	</insert>
+	
+	<select id="getOldMessageListAjax" parameterClass="java.util.Map" resultMap="ChattingResult">
+		<![CDATA[ select * from (select rownum rnum, email, name, content,regdate from (SELECT * FROM H_CHATTING WHERE regdate<#lastdate# and regdate >=#appdate# and p_num=#projectNum#)) where rnum>=#start_row# and rnum <=#end_row# ORDER BY regdate desc ]]>
+	
+			
+	</select>
+	
+	<update id="updateLogDate" parameterClass="java.util.Map">
+	
+			update H_PROJECT_PEOPLE set chlogdate=sysdate where p_num=#projectNum# and email=#email#
+	
+	</update>
+	
+	<update id="updateChattingInPeople" parameterClass="java.util.Map">
+			update H_CHATTING_PEOPLE set flag=1 where p_num=#projectNum# and email=#email#
+			
+	</update>
+	
+	<update id="updateChattingOutPeople" parameterClass="java.util.Map">
+			update H_CHATTING_PEOPLE set flag=0 where p_num=#projectNum# and email=#email#
+			
+	</update>
+	
+	<select id="getChattingPeopleCount" parameterClass="java.lang.Integer" resultClass="java.lang.Integer">
+			select count(*) from H_CHATTING_PEOPLE where p_num=#projectNum# and flag=1
+	</select>
+
+	
+	
+	</sqlMap>

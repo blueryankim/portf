@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="JoinVO" class="finder.member.model.JoinVO"/>
+<bean id="JoinDao" class="finder.member.dao.JoinDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap"/> 
+<bean id="JoinService" class="finder.member.service.JoinServiceImpl"
+		p:joindao-ref="JoinDao"></bean>			
+<bean id="JoinController" class="finder.member.controller.JoinController"
+		p:joinvo-ref="JoinVO"
+		p:joinservice-ref="JoinService"/>
+</beans>

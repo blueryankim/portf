@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+    
+    
+<sqlMap namespace="savememberpointSql">
+	<typeAlias alias="SongPurchaseVO" type="subak.songpurchase.model.SongPurchaseVO" />
+	<resultMap id="SongPurchaseResult" class="SongPurchaseVO">
+		<result property="id" column="P_ID" />
+		<result property="point" column="P_POINT" />
+		<result property="usesave" column="P_USESAVE"/>
+		<result property="note" column="P_NOTE"/>
+		<result property="regdate" column="P_DATE" />
+	</resultMap>    
+	
+	<insert id="savePointInfor" parameterClass="SongPurchaseVO">
+		<![CDATA[	insert into POINT(p_id, p_point,p_usesave,p_note,p_date)
+		values(#id#,#point#,#usesave#,#note#,#regdate#) 
+	]]>
+	</insert>
+	
+	
+	
+	
+</sqlMap>	

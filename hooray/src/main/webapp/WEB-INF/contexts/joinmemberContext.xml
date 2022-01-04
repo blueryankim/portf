@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<bean id="JoinMemberVO" class="hooray.joinmember.model.JoinMemberVO"/>
+<bean id="JoinMemberDao" class="hooray.joinmember.dao.JoinMemberDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap"/>
+<bean id="JoinMemberService" class="hooray.joinmember.service.JoinMemberServiceImpl"
+		p:joinmeMberDao-ref="JoinMemberDao"/>
+<bean id="JoinMemberController" class="hooray.joinmember.controller.JoinMemberController"
+		p:joinMemberService-ref="JoinMemberService"
+		/>
+		
+									
+
+</beans>

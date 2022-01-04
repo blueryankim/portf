@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="MyInformationPaging" class="hooray.myinformation.model.Paging"/> 
+	<bean id="MyInformationDao" class="hooray.myinformation.dao.MyInformationDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap"/>
+	<bean id="MyInformationService" class="hooray.myinformation.service.MyInformationServiceImpl"
+		p:myInformationDao-ref="MyInformationDao"/>
+	<bean id="MyInformationController" class="hooray.myinformation.controller.MyInformationController"
+		p:myInformationService-ref="MyInformationService"
+		p:myProjectPaging-ref="MyInformationPaging"/>	
+		
+		
+	<bean id="AutoChattingInformationController" class="hooray.myinformation.controller.AutoChattingInformationController"
+		p:myInformationService-ref="MyInformationService"/>	
+		
+	<bean id="ChangeProfileImgController" class="hooray.myinformation.controller.ChangeProfileImgController"/>	
+
+</beans>

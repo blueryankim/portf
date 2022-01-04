@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+	
+	<!-- DAO -->
+	<bean id="helpDAO" class="subak.help.dao.HelpDAOImpl"
+		p:sqlMapClientTemplate-ref="sqlMapClientTemplate" />
+
+	<!-- Service -->
+	<bean id="findIdService" class="subak.help.service.FindIdServiceImpl"
+		p:helpDAO-ref="helpDAO" />
+	<bean id="findPassService" class="subak.help.service.FindPassServiceImpl"
+		p:helpDAO-ref="helpDAO" />
+	
+	<!-- Controller -->
+	<bean id="ViewIDHelpController" class="subak.help.controller.ViewIDHelpController" />
+	<bean id="ViewPassHelpController" class="subak.help.controller.ViewPassHelpController" />
+	<bean id="FindIdController" class="subak.help.controller.FindIdController"
+		p:findIdService-ref="findIdService" />
+	<bean id="FindPassController" class="subak.help.controller.FindPassController"
+		p:findPassService-ref="findPassService" />
+	
+</beans>

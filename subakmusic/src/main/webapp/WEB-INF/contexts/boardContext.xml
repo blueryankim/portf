@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--  메인 -->
+	<bean id="MBoardListController" class="subak.fboard.controller.MBoardListController" 
+	p:boardListService-ref="boardListService" p:boardPaging-ref="boardPaging"
+	p:fboardListService-ref="fboardListService" p:qboardListService-ref="qboardListService"
+	/>
+	
+	<!-- Dao -->
+	<bean id="fboardDao" class="subak.fboard.dao.FBoardDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap" />
+	<!-- Model -->
+	<bean id="fboardPaging" class="subak.fboard.model.FPaging" />
+	<bean id="mboardPaging" class="subak.fboard.model.MPaging" />
+	<!-- Controller -->
+	<!-- List 화면 -->
+	<bean id="FBoardListController" class="subak.fboard.controller.FListController"
+		p:boardListService-ref="fboardListService" p:boardPaging-ref="fboardPaging" />
+	<!-- 글쓰기 화면 -->
+	<bean id="FBoardWriteController" class="subak.fboard.controller.FWriteController"
+		p:writeService-ref="fwriteService" />
+	<!-- 글보기 화면 -->
+	<bean id="FBoardGetArticleController" class="subak.fboard.controller.FGetArticleController"
+		p:getArticleService-ref="fgetArticleService" />
+	<!-- 글 수정 -->
+	<bean id="FBoardUpdateArticleController" class="subak.fboard.controller.FUpdateArticleController"
+		p:updateArticleService-ref="fupdateArticleService" />
+	<!-- 글 삭제 -->
+	<bean id="FBoardDeleteArticleController" class="subak.fboard.controller.FDeleteArticleController"
+		p:deleteArticleService-ref="fdeleteArticleService" />
+	<!-- Service -->
+	<bean id="fboardListService" class="subak.fboard.service.FBoardListServiceImpl"
+		p:boardDao-ref="fboardDao" />
+		
+	<bean id="mboardListService" class="subak.fboard.service.MBoardListServiceImpl"
+		p:boardDao-ref="boardDao" />
+		
+	<bean id="fwriteService" class="subak.fboard.service.FWriteServiceImpl"
+		p:boardDao-ref="fboardDao" />
+	<bean id="fgetArticleService" class="subak.fboard.service.FGetArticleServiceImpl"
+		p:boardDao-ref="fboardDao" />
+	<bean id="fupdateArticleService" class="subak.fboard.service.FUpdateArticleServiceImpl"
+		p:boardDao-ref="fboardDao" />
+	<bean id="fdeleteArticleService" class="subak.fboard.service.FDeleteArticleServiceImpl"
+		p:boardDao-ref="fboardDao" />
+	
+	<!-- Dao -->
+	<bean id="qboardDao" class="subak.qboard.dao.BoardDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap" />
+	<!-- Model -->
+	<bean id="qboardPaging" class="subak.qboard.model.QPaging" />
+	<!-- Controller -->
+	<!-- List 화면 -->
+	<bean id="QBoardListController" class="subak.qboard.controller.QListController"
+		p:boardListService-ref="qboardListService" p:boardPaging-ref="qboardPaging" />
+	<!-- 글쓰기 화면 -->
+	<bean id="QBoardWriteController" class="subak.qboard.controller.QWriteController"
+		p:writeService-ref="qwriteService" />
+	<!-- 글보기 화면 -->
+	<bean id="QBoardGetArticleController" class="subak.qboard.controller.QGetArticleController"
+		p:getArticleService-ref="qgetArticleService" />
+	<!-- 글 수정 -->
+	<bean id="QBoardUpdateArticleController" class="subak.qboard.controller.QUpdateArticleController"
+		p:updateArticleService-ref="qupdateArticleService" />
+	<!-- 글 삭제 -->
+	<bean id="QBoardDeleteArticleController" class="subak.qboard.controller.QDeleteArticleController"
+		p:deleteArticleService-ref="qdeleteArticleService" />
+	<!-- Service -->
+	<bean id="qboardListService" class="subak.qboard.service.QBoardListServiceImpl"
+		p:boardDao-ref="qboardDao" />
+	<bean id="qwriteService" class="subak.qboard.service.QWriteServiceImpl"
+		p:boardDao-ref="qboardDao" />
+	<bean id="qgetArticleService" class="subak.qboard.service.QGetArticleServiceImpl"
+		p:boardDao-ref="qboardDao" />
+	<bean id="qupdateArticleService" class="subak.qboard.service.QUpdateArticleServiceImpl"
+		p:boardDao-ref="qboardDao" />
+	<bean id="qdeleteArticleService" class="subak.qboard.service.QDeleteArticleServiceImpl"
+		p:boardDao-ref="qboardDao" />
+		
+	<!-- 					공지							 -->
+	<!-- Dao -->
+	<bean id="boardDao" class="subak.nboard.dao.BoardDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap" />
+	<!-- Model -->
+	<bean id="boardPaging" class="subak.nboard.model.Paging" />
+	<!-- Controller -->
+	<!-- List 화면 -->
+	<bean id="BoardListController" class="subak.nboard.controller.ListController"
+		p:boardListService-ref="boardListService" p:boardPaging-ref="boardPaging" />
+	<!-- 글쓰기 화면 -->
+	<bean id="BoardWriteController" class="subak.nboard.controller.WriteController"
+		p:writeService-ref="writeService" />
+	<!-- 글보기 화면 -->
+	<bean id="BoardGetArticleController" class="subak.nboard.controller.GetArticleController"
+		p:getArticleService-ref="getArticleService" />
+	<!-- 글 수정 -->
+	<bean id="BoardUpdateArticleController" class="subak.nboard.controller.UpdateArticleController"
+		p:updateArticleService-ref="updateArticleService" />
+	<!-- 글 삭제 -->
+	<bean id="BoardDeleteArticleController" class="subak.nboard.controller.DeleteArticleController"
+		p:deleteArticleService-ref="deleteArticleService" />
+	<!-- Service -->
+	<bean id="boardListService" class="subak.nboard.service.BoardListServiceImpl"
+		p:boardDao-ref="boardDao" />
+	<bean id="writeService" class="subak.nboard.service.WriteServiceImpl"
+		p:boardDao-ref="boardDao" />
+	<bean id="getArticleService" class="subak.nboard.service.GetArticleServiceImpl"
+		p:boardDao-ref="boardDao" />
+	<bean id="updateArticleService" class="subak.nboard.service.UpdateArticleServiceImpl"
+		p:boardDao-ref="boardDao" />
+	<bean id="deleteArticleService" class="subak.nboard.service.DeleteArticleServiceImpl"
+		p:boardDao-ref="boardDao" />
+	
+
+</beans>

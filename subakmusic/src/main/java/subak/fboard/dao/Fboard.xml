@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="fboardSql">
+	<typeAlias alias="FBoardVO" type="subak.fboard.model.FBoardVO" />
+	<resultMap id="BoardResult" class="FBoardVO">
+		<result property="num" column="NUM" />
+		<result property="writer" column="WRITER" />
+		<result property="email" column="EMAIL" />
+		<result property="subject" column="SUBJECT" />
+		<result property="pass" column="PASS" />
+		<result property="readcount" column="READCOUNT" />
+		<result property="regdate" column="REGDATE" />
+		<result property="content" column="CONTENT" />
+	</resultMap>
+	<!-- 전체 글 수 : 검색(All) -->
+	<select id="getAllCount" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select count(*) from BOARDC
+		where writer = #search_text# or
+		subject like '%'||#search_text#||'%' or
+		content like '%'||#search_text#||'%'
+	</select>
+	<!-- 전체 글 수 : 검색(writer) -->
+	<select id="getWriterCount" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select count(*) from BOARDC where writer = #search_text#
+	</select>
+	<!-- 전체 글 수 : 검색(subject) -->
+	<select id="getSubjectCount" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select count(*) from BOARDC
+		where subject like '%'||#search_text#||'%'
+	</select>
+	<!-- 전체 글 수 : 검색(content) -->
+	<select id="getContentCount" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select count(*) from BOARDC
+		where content like '%'||#search_text#||'%'
+	</select>
+	
+	<select id="getAllCountForAdmin" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select count(*) from BOARDC
+	</select>
+	<!-- List(목록보기) : 전체 -->
+	<select id="getList" parameterClass="java.util.Map" resultMap="BoardResult">
+	<![CDATA[select * from (select rownum rnum, num, writer, pass, 
+			email, subject, content, regdate, readcount 
+	from (select * from BOARDC order by num desc))
+	where rnum >= #starRow# and rnum <= #endRow#
+	]]>
+	</select>
+	<!-- List(목록보기) : 검색(All) -->
+	<select id="getAllList" parameterClass="java.util.Map"
+		resultMap="BoardResult">
+	<![CDATA[
+	select * from (select rownum rnum, num, writer, pass, email, 
+		subject, content,  regdate, readcount  
+		from (select * from BOARDC 
+		where writer=#search_text# or 
+			subject like '%'||#search_text#||'%' or 
+			content like '%'||#search_text#||'%'  
+			order by num desc)) 
+		where rnum >= #starRow# and rnum <= #endRow#
+	]]>
+	</select>
+	
+	<select id="getAllListForAdmin" parameterClass="java.util.Map" resultMap="BoardResult">
+	<![CDATA[
+			select * from (select rownum rnum, num, writer, pass, email, 
+			subject, content,  regdate, readcount  
+			from (select * from BOARDC order by num desc)) 
+			where rnum >= #starRow# and rnum <= #endRow#
+	]]>
+	
+	</select>
+	
+	<!-- List(목록보기) : 검색(writer) -->
+	<select id="getWriterList" parameterClass="java.util.Map"
+		resultMap="BoardResult">
+	<![CDATA[
+	select * from (select rownum rnum, num, writer, pass, email, 
+		subject, content, regdate, readcount  
+		from (select * from BOARDC 
+		where writer=#search_text# order by num desc))
+		where rnum >= #starRow# and rnum <= #endRow#
+	]]>
+	</select>
+	<!-- List(목록보기) : 검색(subject) -->
+	<select id="getSubjectList" parameterClass="java.util.Map"
+		resultMap="BoardResult">
+	<![CDATA[
+	select * from (select rownum rnum, num, writer, pass, email, 
+		subject, content,  regdate, readcount  
+		from (select * from BOARDC 
+			where subject like '%'||#search_text#||'%' 
+			order by num desc))
+		where rnum >= #starRow# and rnum <= #endRow#
+	]]>
+	</select>
+	<!-- List(목록보기) : 검색(content) -->
+	<select id="getContentList" parameterClass="java.util.Map"
+		resultMap="BoardResult">
+	<![CDATA[
+	select * from (select rownum rnum, num, writer, pass, email, 
+		subject, content, regdate, readcount  
+		from (select * from BOARDC 
+			where content like '%'||#search_text#||'%' 
+			order by num desc))
+		where rnum >= #starRow# and rnum <= #endRow#
+	]]>
+	</select>
+	<!-- 글쓰기 -->
+	<insert id="insertArticle" parameterClass="FBoardVO">
+	<![CDATA[
+	insert into BOARDC(num, writer, pass, email, subject, 
+			content, regdate) 
+		values(BOARDC_seq.nextval,#writer#,#pass#,
+			#email#,#subject#,#content#,#regdate#)
+	]]>
+	</insert>
+	<!-- 글 보기 -->
+	<update id="upReadcount" parameterClass="java.lang.Integer">
+	<![CDATA[
+	update BOARDC set readcount = readcount+1 
+		where num = #num#
+	]]>
+	</update>
+	<select id="getArticle" parameterClass="java.lang.Integer"
+		resultMap="BoardResult">
+	<![CDATA[
+		select * from BOARDC where num = #num#
+	]]>
+	</select>
+	<!-- 비밀번호 가져오기 -->
+	<select id="getPass" parameterClass="java.lang.Integer"
+		resultClass="String">
+	<![CDATA[
+		select pass from BOARDC where num = #num#
+	]]>
+	</select>
+	<!-- 글 수정 -->
+	<update id="updateArticle" parameterClass="FBoardVO">
+	<![CDATA[
+	update BOARDC set writer=#writer#, email=#email#, 
+		subject=#subject#, content=#content#
+		where num=#num#
+	]]>
+	</update>
+	<!-- 글 삭제 -->
+	<delete id="deleteArticle" parameterClass="java.lang.Integer">
+	<![CDATA[
+		delete from BOARDC where num=#num#
+	]]>
+	</delete>
+</sqlMap>

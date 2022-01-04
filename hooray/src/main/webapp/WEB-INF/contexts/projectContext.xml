@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="PlusCountDao" class="hooray.project.dao.PlusCountDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap"/>
+	<bean id="PlusCountService" class="hooray.project.service.PlusCountServiceImpl"
+		p:plusCountDao-ref="PlusCountDao"/>
+	<bean id="PlusCountController" class="hooray.project.controller.PlusCountController"
+		p:plusCountService-ref="PlusCountService"/>		
+		
+	<bean id="CancelAppProjectDao" class="hooray.project.dao.CancelAppProjectDaoImpl"	
+		p:sqlMapClient-ref="BaseDBSqlMap"/>
+	<bean id="CancelAppProjectService" class="hooray.project.service.CancelAppProjectServiceImpl"
+		p:cancelAppProjectDao-ref="CancelAppProjectDao"/>
+	<bean id="CancelAppProjectController" class="hooray.project.controller.CancelAppProjectController"
+		p:cancelAppProjectService-ref="CancelAppProjectService"/>	
+		
+</beans>
+

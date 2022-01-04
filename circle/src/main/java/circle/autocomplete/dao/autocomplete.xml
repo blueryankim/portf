@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+ 
+	<sqlMap namespace="autocompleteSql">
+	<typeAlias alias="AutoCompleteVO" type="circle.autocomplete.model.AutoCompleteVO" />
+	<resultMap id="AutoCompleteResult" class="AutoCompleteVO">
+		<result property="profileimg" column="PROFILEIMG" />
+		<result property="name" column="NAME" />
+		<result property="university" column="UNIVERSITY" />
+		<result property="id" column="ID" />
+	</resultMap>	
+	
+	
+	<select id="getAutoComplete" parameterClass="java.lang.String"
+		resultMap="AutoCompleteResult">
+		
+		select id,profileimg,name,university from MEMBER where UPPER(TRIM(name)) like '%'||#query#||'%'
+		
+	</select>
+	
+	</sqlMap>
+	

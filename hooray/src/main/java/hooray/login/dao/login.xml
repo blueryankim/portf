@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+    <sqlMap namespace="emailAndPassCheckSql">
+    
+	
+	
+	<select id="emailAndPassCheck" parameterClass="java.util.Map" resultClass="java.lang.String">
+				select NAME from H_MEMBER where EMAIL=#email# and PASS=#password#
+		
+	</select>
+	
+	<select id="emailCheck" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+				select count(*) from H_MEMBER where EMAIL=#email#
+	
+	</select>
+	
+
+</sqlMap>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="insertMemberSql">
+	<typeAlias alias="JoinMemberVO" type="hooray.joinmember.model.JoinMemberVO" />
+
+	<!-- 회원가입(Add) -->
+	<insert id="insertMember" parameterClass="JoinMemberVO">
+	
+		insert into H_MEMBER(email, name, pass, regdate) values(#email#, #name#, #password#, sysdate)
+	
+	</insert>
+	
+	<select id="confirmJoined" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from H_MEMBER where EMAIL=#email#
+		
+	</select>
+	
+	<statement id="makeMemberTable" parameterClass="java.lang.String">
+	<![CDATA[CREATE TABLE temp$table$ AS SELECT * FROM (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where 1=2))
+	]]>
+		
+	
+	</statement>
+</sqlMap>
+    

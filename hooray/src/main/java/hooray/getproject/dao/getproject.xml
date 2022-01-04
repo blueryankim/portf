@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+ 
+	<sqlMap namespace="getProjectSql">
+	
+	<typeAlias alias="getProjectVO" type="hooray.getproject.model.GetProjectVO" />
+	<resultMap id="getProjectResult" class="getProjectVO">
+		
+		<result property="projectNum" column="P_NUM"/>
+		<result property="email" column="EMAIL" />
+		<result property="categori" column="CATEGORI" />	
+		<result property="name" column="NAME"/>
+		<result property="maintitle" column="MAINTITLE"/>
+		<result property="subtitle" column="SUBTITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="currentpeople" column="CURRENTPEOPLE"/>
+		<result property="limitpeople" column="LIMITPEOPLE"/>
+		<result property="regdate" column="REGDATE"/>
+		<result property="period" column="PERIODDATE"/>
+		<result property="count" column="COUNT"/>
+		<result property="lastimgnum" column="LASTIMGNUM"/>
+		<result property="leavedate" column="LEAVEDATE"/>
+		<result property="state" column="STATE"/>
+		<result property="city" column="CITY"/>
+		
+	
+		</resultMap>
+		
+		
+	<typeAlias alias="getProjectsVO" type="hooray.getproject.model.GetProjectVO" />
+	<resultMap id="getProjectsResult" class="getProjectsVO">
+		
+		<result property="projectNum" column="P_NUM"/>
+		<result property="email" column="EMAIL" />
+		<result property="categori" column="CATEGORI" />	
+		<result property="name" column="NAME"/>
+		<result property="maintitle" column="MAINTITLE"/>
+		<result property="subtitle" column="SUBTITLE"/>
+		<result property="currentpeople" column="CURRENTPEOPLE"/>
+		<result property="limitpeople" column="LIMITPEOPLE"/>
+		<result property="regdate" column="REGDATE"/>
+		<result property="period" column="PERIODDATE"/>
+		<result property="count" column="COUNT"/>
+		<result property="leavedate" column="LEAVEDATE"/>
+		<result property="state" column="STATE"/>
+		<result property="city" column="CITY"/>
+		</resultMap>	
+	
+	<select id="getAProject" parameterClass="java.lang.Integer" resultMap="getProjectResult">
+		<![CDATA[	SELECT * from (SELECT p_num,email,name,categori,maintitle,subtitle,content,currentpeople,limitpeople,perioddate,regdate,count,state,city,lastimgnum,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE FROM H_PROJECT_BOARD where P_NUM = #projectNum#)]]>
+	</select>
+	
+	<select id="getLatestDate" resultClass="java.util.Date">
+			<![CDATA[select MAX(REGDATE) from H_PROJECT_BOARD WHERE TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople ]]>
+	</select> 
+	
+	<select id="getLatestProjectsList" parameterClass="java.util.Map" resultMap="getProjectsResult">
+		<![CDATA[select * from (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople order by regdate desc)) WHERE rnum >=#start_row# and rnum <=#end_row#]]>
+	</select>
+	
+	<select id="getLatestProjectsKindList" parameterClass="java.util.Map" resultMap="getProjectsResult">
+		<![CDATA[select * from (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople and categori=#projectKind# order by regdate desc)) WHERE rnum >=#start_row# and rnum <=#end_row#]]>
+	</select>
+	
+	
+	<select id="getLatestProjectsListAjax" parameterClass="java.util.Map" resultMap="getProjectsResult">
+		<![CDATA[select * from (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople and regdate < #latest_date# order by regdate desc)) WHERE rnum >=#start_row# and rnum <=#end_row#]]>
+	</select>
+	
+	<select id="getLatestProjectsKindListAjax" parameterClass="java.util.Map" resultMap="getProjectsResult">
+		<![CDATA[select * from (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople and regdate < #latest_date# and categori=#projectKind# order by regdate desc)) WHERE rnum >=#start_row# and rnum <=#end_row#]]>
+	</select>
+	
+	<select id="getRegionProjectsList" parameterClass="java.util.Map" resultMap="getProjectsResult">
+			<![CDATA[select * from (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople and state like '%'||#searchproject#||'%' order by regdate desc)) WHERE rnum >=#start_row# and rnum <=#end_row#]]>
+	
+	</select>
+	
+	<select id="getTitleProjectsList" parameterClass="java.util.Map" resultMap="getProjectsResult">
+			<![CDATA[select * from (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople and maintitle like '%'||#searchproject#||'%' order by regdate desc)) WHERE rnum >=#start_row# and rnum <=#end_row#]]>
+	
+	</select>
+	
+	<select id="getWriterProjectsList" parameterClass="java.util.Map" resultMap="getProjectsResult">
+			<![CDATA[select * from (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople and name like '%'||#searchproject#||'%' order by regdate desc)) WHERE rnum >=#start_row# and rnum <=#end_row#]]>
+	
+	</select>
+	
+	<select id="getRegionProjectsAjaxList" parameterClass="java.util.Map" resultMap="getProjectsResult">
+			<![CDATA[select * from (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople and regdate < #latest_date# and state like '%'||#searchproject#||'%' order by regdate desc)) WHERE rnum >=#start_row# and rnum <=#end_row#]]>
+	
+	</select>
+	
+	<select id="getTitleProjectsAjaxList" parameterClass="java.util.Map" resultMap="getProjectsResult">
+			<![CDATA[select * from (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople and regdate < #latest_date# and maintitle like '%'||#searchproject#||'%' order by regdate desc)) WHERE rnum >=#start_row# and rnum <=#end_row#]]>
+	
+	</select>
+	
+	<select id="getWriterProjectsAjaxList" parameterClass="java.util.Map" resultMap="getProjectsResult">
+			<![CDATA[select * from (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople and regdate < #latest_date# and name like '%'||#searchproject#||'%' order by regdate desc)) WHERE rnum >=#start_row# and rnum <=#end_row#]]>
+	
+	</select>
+	
+	
+	
+	<statement id="truncateMemberTable" parameterClass="java.lang.String">
+		 TRUNCATE TABLE temp$email$
+	</statement>
+	
+	<insert id="insertTempForPopularList" parameterClass="java.util.Map">
+		<![CDATA[INSERT INTO temp$email$ SELECT * FROM (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople order by count desc))]]>
+	</insert>
+	
+	<insert id="insertTempForPopularKindList" parameterClass="java.util.Map">
+		<![CDATA[INSERT INTO temp$email$ SELECT * FROM (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople and categori=#projectKind# order by count desc))]]>
+	</insert>
+	
+
+	
+	<select id="getPopularProjectsList" parameterClass="java.util.Map" resultMap="getProjectsResult">
+		<![CDATA[select * from temp$email$ where rnum>=#start_row# and rnum <=#end_row#]]>
+					
+	</select>
+	
+	
+	<statement id="createTempForPopularList" parameterClass="java.lang.String">
+		<![CDATA[CREATE TABLE temp$table$ AS SELECT * FROM (select rownum rnum, p_num,categori,email,name,maintitle,subtitle,currentpeople,limitpeople,perioddate,regdate,count,state,city,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and currentpeople < limitpeople order by count desc))]]>
+	
+	</statement>
+	
+	
+	
+	
+	</sqlMap>
+	

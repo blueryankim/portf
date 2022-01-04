@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="inputtimelineSql">
+	<typeAlias alias="InputTimelineVO" type="circle.inputtimeline.model.InputTimelineVO" />
+	
+	<typeAlias alias="TimelineContentVO2" type="circle.inputtimeline.model.TimelineContentVO" />
+	<resultMap id="TimelineContentResult2" class="TimelineContentVO2">
+		
+		<result property="num" column="NUM"/>
+		<result property="id" column="ID" />
+		<result property="writer" column="WRITER"/>
+		<result property="towhom" column="TOWHOM"/>
+		<result property="content" column="CONTENT"/>
+		<result property="openscope" column="OPENSCOPE"/>
+		<result property="imagepath" column="IMAGEPATH"/>
+		<result property="ilike" column="ILIKE"/>
+		<result property="regdate" column="REGDATE"/>
+		<result property="profileimg" column="PROFILEIMG"/>
+			
+	</resultMap>
+	
+	
+	<select id="getLatestImageNum" parameterClass="java.lang.String" resultClass="java.lang.String">
+	select IMAGENUM from (SELECT ROWNUM,IMAGENUM FROM IMAGELIST where id=#id# order BY regdate desc) WHERE rownum=1
+	</select>
+	
+	<insert id="insertImageInfor" parameterClass="java.util.Map">
+	insert into IMAGELIST(id,imagenum,imagekind,regdate) values(#id#,#latestimagenum#,#imagekind#,sysdate)
+	</insert>
+	
+	
+	<insert id="insertTimeline" parameterClass="InputTimelineVO">
+	
+	insert into POSTING(num,id,writer,content,imagepath,openscope,regdate) values(POSTING_SEQ.nextval,#id#,#writer#,#content#,#imagepath#,#openscope#,sysdate) 
+	</insert>
+	
+	<insert id="insertTimeline2" parameterClass="InputTimelineVO">
+	insert into POSTING(num,id,writer,towhom,content,openscope,regdate) values(POSTING_SEQ.nextval,#id#,#writer#,#towhom#,#content#,#openscope#,sysdate) 
+	
+	
+	</insert>	
+	
+	<select id="getUpdatedTimelineList" parameterClass="java.util.Map" resultMap="TimelineContentResult2">
+	select * from (SELECT distinct rownum,num,POSTING.id,writer,towhom,content,openscope,imagepath,ilike, POSTING.regdate, MEMBER.PROFILEIMG FROM POSTING,MEMBER WHERE posting.id=#id# AND POSTING.id=MEMBER.id  ORDER BY POSTING.regdate desc) WHERE rownum=1
+  	</select>
+	
+	<select id="getUpdatedTimelineList2" parameterClass="java.util.Map" resultMap="TimelineContentResult2">
+	select * from POSTING where (id=#id# and regdate > #latesttime#) order by regdate desc 
+	</select>
+	
+</sqlMap>

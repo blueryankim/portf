@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+    
+<sqlMap namespace="getsharealbumlist2Sql">
+	<typeAlias alias="ShareAlbumListVO2" type="subak.home.model.ShareAlbumListVO" />
+	<resultMap id="ShareAlbumListResult" class="ShareAlbumListVO2">
+		<result property="listnum" column="A_NUM" />
+		<result property="subject" column="A_SUBJECT" />
+		<result property="writer" column="A_WRITER" />
+		<result property="imgpath" column="A_IMAGEPATH" />
+		<result property="readcount" column="A_READCOUNT" />
+		<result property="list" column="A_LIST" />
+		<result property="recomcount" column="A_RECOM"/>
+		
+		</resultMap>
+		
+		<select id="getShareAlbumList2" parameterClass="java.util.Map" resultMap="ShareAlbumListResult">
+		
+		<![CDATA[select * from (select rownum rnum, a_num, a_subject,a_writer,a_imagepath,a_readcount,a_list,a_recom from (select * from album order by a_regdate desc)) where rnum >= #startRow# and rnum <= #endRow#
+		]]>
+		
+		</select>
+		
+		
+		
+		
+		</sqlMap>

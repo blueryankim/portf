@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="postcontentSql">
+	<typeAlias alias="PostContentVO" type="finder.postcontent.model.PostContentVO" />
+	<resultMap id="PostContentResult" class="PostContentVO">
+		<result property="id" column="ID" />
+		<result property="writer" column="WRITER" />
+		<result property="contenttitle" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="categori" column="CATEGORI" />
+		<result property="openscope" column="SCOPE" />
+	</resultMap>
+	
+	
+	<insert id="insertPostContent" parameterClass="PostContentVO">
+	insert into POSTING(num,id,writer,title,content,categori,scope,regdate,subtitle) values(POSTING_SEQ.nextval,#id#,#writer#,#contenttitle#,#content#,#categori#,#openscope#,sysdate,#subtitle#) 
+	</insert>
+	
+	<select id="getImageNum" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+	select MAX(NUM) from POSTING WHERE id=#id#
+	</select>
+	
+	
+	
+	
+
+</sqlMap>

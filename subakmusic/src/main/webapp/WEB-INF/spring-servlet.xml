@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<value>
+			
+				<!-- 박성희 -->
+				<!-- 마이페이지 -->
+				myPage/myPageHome.do=MyPageHomeController
+				myPage/mpPointList.do=mpPointListController
+				myPage/mpDownloadList.do=mpDownloadListController
+				myPage/mpMyAlbumList.do=mpMyAlbumListController
+				myPage/mpUpdateMember.do=mpUpdateMemberController
+				myPage/mpDeleteMember.do=mpDeleteMemberController
+				<!-- 에러 페이지 -->
+				error/loginRequest.do=notLoginMemberBlock
+				
+				<!-- 박소연 -->
+				member/registForm.do=MemberRegistController
+				member/idCheck.do=idCheckController
+				
+				<!-- 우동환 -->
+				home/home.do=HomePageController
+				home/login.do=LoginController
+				home/logout.do=LogoutController
+				<!-- help페이지 -->
+				help/idView.do=ViewIDHelpController
+				help/passView.do=ViewPassHelpController
+				help/getId.do=FindIdController
+				help/getPass.do=FindPassController
+				<!-- 관리자 -->
+				admin/adminView.do=AdminPageViewController
+				admin/memberAdminPage.do=AdminMemberViewController
+				admin/articleAdminPage.do=AdminArticleViewController
+				admin/musicAdminPage.do=AdminMusicViewController
+				admin/deleteMember.do=DeleteMemberController
+				admin/deleteArticle.do=DeleteArticleController
+				admin/adminLogout.do=AdminLogoutController
+				admin/noticePage.do=NoticePageViewController
+				admin/writeForm.do=NoticeWriteController
+				admin/content.do=NoticeGetArticleController
+				admin/updateForm.do=NoticeUpdateArticleController
+				admin/deleteForm.do=NoticeDeleteArticleController
+				admin/linkmediaAdminPage.do=AdminLinkmediaController
+				
+				<!-- 김승우 -->
+				chart/list.do=ChartListController
+				chart/musicplay.do=MusicPlayerController
+				chart/songpurchase.do=SongPurchaseController
+				chart/takemypoint.do=TakeMyPointController
+				chart/albuminfor.do=AlbumInforController
+				chart/checkmydown.do=CheckMyDownController
+				uploadsong/upload.do=UploadSongController
+				uploadlink/uploadlink.do=UploadLinkController
+				musicplayer/albuminfor.do=AlbumInforController
+				albuminformationcomment/albumcomment.do=AlbumInforCommentController
+				albuminformationcomment/albumcommentdelete.do=AlbumInforCommentDeleteController
+				linkmedia/linkmedia.do=LinkMediaController
+				uploadsharealbum/searchmusic.do=SearchMusicController
+				uploadsharealbum/uploadsharealbum.do=UploadShareAlbumController
+				sharealbum/sharealbumlist.do=ShareAlbumListController
+				sharealbum/mysharealbum.do=MyShareAlbumController
+				sharealbum/albuminfor.do=AlbumInforController
+				sharealbum/musicplay.do=MusicPlayerController
+				sharealbum/songpurchase.do=SongPurchaseController
+				sharealbum/takemypoint.do=TakeMyPointController
+				sharealbum/checkmydown.do=CheckMyDownController
+				sharealbum/uprecom.do=UpRecomController
+				sharealbum/deletemysharealbum.do=DeleteMyShareAlbumController
+				albuminformation/musicplay.do=MusicPlayerController
+				albuminformation/songpurchase.do=SongPurchaseController
+				albuminformation/takemypoint.do=TakeMyPointController
+				albuminformation/checkmydown.do=CheckMyDownController
+				pointaccumulation/pointaccumulation.do=PointAccumulationController
+				
+				<!-- 임광혁 -->
+				<!-- 메인 게시판 -->
+			  	fboard/boardList.do=MBoardListController 
+				<!-- 자유 게시판 -->
+				fboard/flist.do=FBoardListController
+				fboard/fwriteForm.do=FBoardWriteController
+				fboard/fcontent.do=FBoardGetArticleController
+				fboard/fupdateForm.do=FBoardUpdateArticleController
+				fboard/fdeleteForm.do=FBoardDeleteArticleController
+				<!-- comment -->
+				fcomment/list.do = FCommentListController
+				fcomment/write.do = FCommentWriteController
+				fcomment/update.do = FCommentUpdateController
+				fcomment/delete.do = FCommentDeleteController    
+				<!-- Q&A 게시판 -->
+				qboard/list.do=QBoardListController
+				qboard/writeForm.do=QBoardWriteController
+				qboard/content.do=QBoardGetArticleController
+				qboard/updateForm.do=QBoardUpdateArticleController
+				qboard/deleteForm.do=QBoardDeleteArticleController
+				<!--  comment -->
+				qcomment/list.do = QCommentListController
+				qcomment/write.do = QCommentWriteController
+				qcomment/update.do = QCommentUpdateController
+				qcomment/delete.do = QCommentDeleteController   
+				<!-- 공지 -->
+				<!-- 게시판 -->
+				board/list.do=BoardListController
+				board/writeForm.do=BoardWriteController
+				board/content.do=BoardGetArticleController
+				board/updateForm.do=BoardUpdateArticleController
+				board/deleteForm.do=BoardDeleteArticleController
+				
+				
+				
+				<!-- album/albumList.do=AlbumListController -->
+			</value>
+		</property>
+	</bean>
+	
+	<!-- 파일을 수신하기 위해서 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000" />
+		<!-- <property name="uploadTempDir" ref="uploadDirResource"/> -->
+	</bean>
+
+	<!-- <bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource"> 
+		<constructor-arg><value>C:\mp3file</value></constructor-arg>
+	</bean> -->
+
+</beans>

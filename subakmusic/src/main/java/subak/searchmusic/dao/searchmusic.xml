@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+   
+<sqlMap namespace="searchmusicSql">
+	<typeAlias alias="SearchMusicVO" type="subak.searchmusic.model.SearchMusicVO" />
+	<resultMap id="SearchMusicResult" class="SearchMusicVO">
+		<result property="songnum" column="M_NUM" />
+		<result property="songname" column="M_TITLE" />
+		<result property="singer" column="M_SINGER" />
+		</resultMap>
+		
+		<select id="searchMusicSingerCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(*) from MUSICLIST where UPPER(TRIM(M_SINGER)) like '%'||#searchtext#||'%'  
+		</select>				
+	
+		<select id="searchMusicSongNameCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(*) from MUSICLIST where UPPER(TRIM(M_TITLE)) like '%'||#searchtext#||'%'
+		</select>
+		
+		<select id="searchSingerList" parameterClass="java.util.Map" resultMap="SearchMusicResult">
+		<![CDATA[select m_num,m_title,m_singer from (select rownum rnum,m_num,m_title,m_singer,m_content,m_pcount,m_dcount,m_regdate,m_path,m_album from (select * from (select * from musiclist where UPPER(TRIM(M_SINGER)) like '%'||#searchtext#||'%') order by m_regdate desc)) where rnum >= #startRow# and rnum <= #endRow#  ]]>
+		</select>
+		
+		
+		<select id="searchSongNameList" parameterClass="java.util.Map" resultMap="SearchMusicResult">
+		<![CDATA[select m_num,m_title,m_singer from (select rownum rnum,m_num,m_title,m_singer,m_content,m_pcount,m_dcount,m_regdate,m_path,m_album from (select * from (select * from musiclist where UPPER(TRIM(M_TITLE)) like '%'||#searchtext#||'%') order by m_regdate desc)) where rnum >= #startRow# and rnum <= #endRow#  ]]>
+		</select>
+		
+			
+	</sqlMap>	

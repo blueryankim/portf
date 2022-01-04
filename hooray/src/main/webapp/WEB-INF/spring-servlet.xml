@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- HandlerMapping -->
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<value>
+			write/saveimage.do=SaveImageController
+			write/updateimage.do=SaveImageController
+			write/uploadproject.do=UploadProjectController
+			write/updateproject.do=UploadProjectController
+			member/checkemail.do=ConfirmEmailController
+			member/joinmember.do=JoinMemberController
+			member/login.do=EmailAndPassCheckController
+			project/getaproject.do=GetAProjectController
+			project/getaprojectforupdate.do=GetAProjectController
+			project/getprojectsfirst.do=GetProjectsController
+			project/getprojectsajax.do=GetProjectsController
+			project/getprojectkind.do=GetProjectsController
+			project/getprojectskindajax.do=GetProjectsController
+			project/getprojectselect.do=GetProjectsController
+			project/getprojectselectajax.do=GetProjectsController
+			project/applyproject.do=ApplyProjectController
+			project/pluscount.do=PlusCountController
+			project/getcommentfirst.do=GetCommentController
+			project/getcomment.do=GetCommentController
+			project/getapplicant.do=GetApplicantController
+			project/cancelappproject.do=CancelAppProjectController
+			comment/updatecomment.do=UpdateCommentController
+			comment/deletecomment.do=DeleteCommentController
+			home/homepage.do=HomepageController
+			member/logout.do=LogoutController
+			member/myinformation.do=MyInformationController
+			member/automyinformation.do=AutoChattingInformationController
+			member/updateprofileimage.do=ChangeProfileImgController
+			chatting/getchamessagefirst.do=ChattingController
+			chatting/getchamessage.do=ChattingController
+			chatting/uploadchattingmessage.do=UploadChattingMessageController
+			chatting/getchaoldmessage.do=BringOldMessageController
+			chatting/updatelogdate.do=UpdateLogDateController
+			
+	
+			
+			</value>
+		</property>
+	</bean>
+	
+	<!-- 파일을 수신하기 위해서 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000" />
+		<!-- <property name="uploadTempDir" ref="uploadDirResource"/> -->
+	</bean>
+	
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    <property name="messageConverters">
+        <list>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </list>
+    </property>
+</bean>
+	
+
+</beans>
+	

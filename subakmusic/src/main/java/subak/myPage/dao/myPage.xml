@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="mypageSql">
+	
+	<typeAlias alias="mp_Point" type="subak.myPage.model.PointVO" />
+	<resultMap id="mp_PointResult" class="mp_Point">
+		<result property="p_id" column="P_ID" />
+		<result property="p_point" column="P_POINT" />
+		<result property="p_usesave" column="P_USESAVE" />
+		<result property="p_note" column="P_NOTE" />
+		<result property="p_date" column="P_DATE" />
+	</resultMap>
+	
+	<typeAlias alias="mp_Download" type="subak.myPage.model.DownloadListVO"/>
+	<resultMap id="mp_DownloadResult" class="mp_Download">
+		<result property="d_id" column="D_ID" />
+		<result property="d_mnum" column="D_MNUM" />
+		<result property="d_date" column="D_DATE" />
+		<result property="m_title" column="M_TITLE" />
+		<result property="m_singer" column="M_SINGER" />
+	</resultMap>
+	
+	<typeAlias alias="mp_Album" type="subak.myPage.model.AlbumVO"/>
+	<resultMap id="mp_AlbumResult" class="mp_Album">
+		<result property="a_num" column="A_NUM" />
+		<result property="a_subject" column="A_SUBJECT" />
+		<result property="a_writer" column="A_WRITER" />
+		<result property="a_content" column="A_CONTENT" />
+		<result property="a_imagepath" column="A_IMAGEPATH" />
+		<result property="a_list" column="A_LIST" />
+		<result property="a_regdate" column="A_REGDATE" />
+		<result property="a_readcount" column="A_READCOUNT" />
+		<result property="a_recom" column="A_RECOM" />
+	</resultMap>
+	
+	<typeAlias alias="mp_Member" type="subak.myPage.model.MemberVO" />
+	<resultMap id="mp_MemberResult" class="mp_Member">
+		<result property="id" column="ID" />
+		<result property="name" column="NAME" />
+		<result property="pass" column="PASS" />
+		<result property="phone1" column="PHONE1" />
+		<result property="phone2" column="PHONE2" />
+		<result property="phone3" column="PHONE3" />
+		<result property="email" column="EMAIL" />
+		<result property="birth1" column="BIRTH1" />
+		<result property="birth2" column="BIRTH2" />
+		<result property="birth3" column="BIRTH3" />
+		<result property="f_singer" column="F_SINGER" />
+		<result property="f_genre" column="F_GENRE" />
+		<result property="point" column="POINT" />
+		<result property="regdate" column="REGDATE" />
+	</resultMap>
+	
+	
+	<!-- 마이페이지 메인 화면 관련 ++++++++++++++++++++++++++++++++++ -->
+	<!-- 보유포인트 -->
+	<select id="mp_havingPoint" parameterClass="java.util.Map" resultClass="Integer">
+	<![CDATA[
+		select POINT
+		from MEMBER
+		where ID=#userID#
+	]]>
+	</select>
+	
+	<!-- 다운로드곡 수 -->
+	<select id="mp_downloadMusic" parameterClass="java.util.Map" resultClass="Integer">
+	<![CDATA[
+		select count(*)
+		from DOWNLOAD
+		where D_ID=#userID#
+	]]>
+	</select>
+	
+	<!-- 내가만든앨범 수 -->
+	<select id="mp_myAlbum" parameterClass="java.util.Map" resultClass="Integer">
+	<![CDATA[
+		select count(*)
+		from ALBUM
+		where A_WRITER=#userID#
+	]]>
+	</select>
+	
+	
+	<!-- 포인트내역 화면 관련 +++++++++++++++++++++++++++++++++++++ -->
+	<!-- 해당 아이디에 관련된 포인트 내역 수 -->
+	<select id="mp_pointListCount" parameterClass="java.util.Map" resultClass="Integer">
+	<![CDATA[
+		select count(*)
+		from POINT
+		where P_ID=#userID#
+	]]>
+	</select>
+	
+	<!-- 해당 아이디에 관련된 포인트 내역 찾기 -->
+	<select id="mp_pointList" parameterClass="java.util.Map" resultMap="mp_PointResult">
+	<![CDATA[
+		select * from
+			(select ROWNUM RNUM, P_ID, P_POINT, P_USESAVE, P_NOTE, P_DATE from
+				(select * from POINT
+				where P_ID=#userID#
+				order by P_DATE desc))
+		where RNUM>=#starRow# and RNUM<=#endRow#
+	]]>
+	</select>
+	
+	
+	<!-- 다운로드내역 화면 관련 ++++++++++++++++++++++++++++++++++++ -->
+	<select id="mp_downloadList" parameterClass="java.util.Map" resultMap="mp_DownloadResult">
+	<![CDATA[
+		select * from
+			(select ROWNUM RNUM, D_ID, D_MNUM, M_TITLE, M_SINGER, D_DATE from
+				(select d.D_ID, d.D_MNUM, m.M_TITLE, m.M_SINGER, d.D_DATE
+				from DOWNLOAD d, MUSICLIST m
+				where d.D_MNUM=m.M_NUM and d.D_ID=#userID#
+				order by d.D_DATE desc))
+		where RNUM>=#starRow# and RNUM<=#endRow#
+	]]>
+	</select>
+	
+	
+	<!-- 내가만든앨범 화면 관련 ++++++++++++++++++++++++++++++++++++ -->
+	<select id="mp_albumList" parameterClass="java.util.Map" resultMap="mp_AlbumResult">
+	<![CDATA[
+		select * from
+			(select ROWNUM RNUM, A_NUM, A_SUBJECT, A_WRITER, A_CONTENT, A_IMAGEPATH, A_LIST,
+			A_REGDATE, A_READCOUNT, A_RECOM from
+				(select * from ALBUM
+				where A_WRITER=#userID#
+				order by A_NUM desc))
+		where RNUM>=#starRow# and RNUM<=#endRow#
+	]]>
+	</select>
+	
+	
+	<!-- 정보수정 화면 관련 +++++++++++++++++++++++++++++++++++++++ -->
+	<select id="mp_getMemberInfo" parameterClass="String" resultClass="mp_Member">
+	<![CDATA[
+		select ID, NAME, PASS, PHONE1, PHONE2, PHONE3, EMAIL,
+			BIRTH1, BIRTH2, BIRTH3, F_SINGER, F_GENRE, POINT, REGDATE
+		from MEMBER
+		where ID=#userID#
+	]]>
+	</select>
+	<update id="mp_updateMember" parameterClass="mp_Member">
+																								<!-- PASS=#pass#,  -->
+	<![CDATA[
+		update MEMBER
+		set PASS=#pass#, PHONE1=#phone1#, PHONE2=#phone2#, PHONE3=#phone3#,
+			EMAIL=#email#, F_SINGER=#f_singer#, F_GENRE=#f_genre#
+		where ID=#id#
+	]]>
+	</update>
+	
+	
+	<!-- 정보탈퇴 화면 관련 +++++++++++++++++++++++++++++++++++++++ -->
+	<select id="mp_getPass" parameterClass="java.lang.String" resultClass="String">
+	<![CDATA[
+		select PASS
+		from MEMBER
+		where ID=#userID#
+	]]>
+	</select>
+	<delete id="mp_deleteMember" parameterClass="java.lang.String">
+	<![CDATA[
+		delete from MEMBER
+		where ID=#userID#
+	]]>
+	</delete>
+	
+</sqlMap>

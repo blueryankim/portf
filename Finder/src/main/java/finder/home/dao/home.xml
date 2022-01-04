@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="homeSql">
+	<typeAlias alias="HomeVO" type="finder.home.model.HomeVO" />
+	<resultMap id="HomeResult" class="HomeVO">
+	<result property="num" column="NUM" />
+	<result property="title" column="TITLE" />
+	<result property="subtitle" column="SUBTITLE"/>
+
+	</resultMap>
+	
+
+	<select id="getHomeBookList" resultMap="HomeResult">
+	<![CDATA[select * from (select rownum rnum, num, title, subtitle from (select * from posting where categori = 2 and scope = 2 order by count desc)) where rnum >= 1 and rnum <= 4
+	]]>
+	
+	<!--  SELECT * FROM ( SELECT ROWNUM rnum, num, title, subtitle, content FROM (SELECT * FROM POSTING WHERE SYSDATE - regdate < 24/24 AND categori = 2 AND scope = 2  order by count desc)) where rnum >= 1 and rnum <= 4 -->
+	
+	</select>
+	
+	<select id="getHomeAlbumList" resultMap="HomeResult">
+	<![CDATA[select * from (select rownum rnum, num, title, subtitle from (select * from posting where categori = 3 and scope = 2 order by count desc)) where rnum >= 1 and rnum <= 4
+	]]>
+	
+	<!--  SELECT * FROM ( SELECT ROWNUM rnum, num, title, subtitle, content FROM (SELECT * FROM POSTING WHERE SYSDATE - regdate < 24/24 AND categori = 3 AND scope = 2  order by count desc)) where rnum >= 1 and rnum <= 4 -->
+	
+	</select>
+	
+	<select id="getHomeWritingList" resultMap="HomeResult">
+	<![CDATA[select * from (select rownum rnum, num, title, subtitle from (select * from posting where categori = 1 and scope = 2 order by count desc)) where rnum >= 1 and rnum <= 4
+	]]>
+	
+	<!--  SELECT * FROM ( SELECT ROWNUM rnum, num, title, subtitle, content FROM (SELECT * FROM POSTING WHERE SYSDATE - regdate < 24/24 AND categori = 1 AND scope = 2  order by count desc)) where rnum >= 1 and rnum <= 4 -->
+	
+	</select>
+	
+	<select id="getMyBookCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from POSTING WHERE CATEGORI = 2 and ID =#id#
+	</select>
+	
+	<select id="getMyAlbumCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from POSTING WHERE CATEGORI = 3 and ID =#id#	
+	</select>
+	
+	<select id="getMyWritingCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from POSTING WHERE CATEGORI = 1 and ID =#id#
+	</select>
+	
+	<select id="getMyName" parameterClass="java.lang.String" resultClass="java.lang.String">
+	    select NAME from MEMBER where ID =#id#
+	    
+	</select>
+	
+	</sqlMap>

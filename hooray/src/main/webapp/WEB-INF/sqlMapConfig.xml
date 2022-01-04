@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMapConfig      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+    
+<sqlMapConfig>
+
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" maxRequests="32" maxSessions="10"
+		maxTransactions="5" useStatementNamespaces="true" />
+		
+		<sqlMap resource="hooray/confirmemail/dao/confirmemail.xml" />
+		<sqlMap resource="hooray/joinmember/dao/joinmember.xml"/>
+		<sqlMap resource="hooray/login/dao/login.xml"/>
+		<sqlMap resource="hooray/uploadproject/dao/uploadproject.xml"/>
+		<sqlMap resource="hooray/getproject/dao/getproject.xml"/>
+		<sqlMap resource="hooray/homepage/dao/homepage.xml"/>
+		<sqlMap resource="hooray/project/dao/project.xml"/>
+		<sqlMap resource="hooray/applyproject/dao/applyproject.xml"/>
+		<sqlMap resource="hooray/getcomment/dao/getcomment.xml"/>
+		<sqlMap resource="hooray/getapplicant/dao/getapplicant.xml"/>
+		<sqlMap resource="hooray/chatting/dao/chatting.xml"/>
+		<sqlMap resource="hooray/myinformation/dao/myinformation.xml"/>
+		
+		
+	
+</sqlMapConfig>

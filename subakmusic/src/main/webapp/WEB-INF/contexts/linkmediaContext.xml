@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- model -->
+<bean id="LinkMediaPaging" class="subak.linkmedia.model.Paging"/>
+<!-- dao -->
+<bean id="LinkMediaDao" class="subak.linkmedia.dao.LinkMediaDaoImpl"
+	p:sqlMapClient-ref="BaseDBSqlMap"/>
+<!-- service -->
+<bean id="LinkMediaService" class="subak.linkmedia.service.LinkMediaServiceImpl"
+	p:linkmediadao-ref="LinkMediaDao"/>
+<!-- controller -->
+<bean id="LinkMediaController" class="subak.linkmedia.controller.LinkMediaController"
+	p:linkmediapaging-ref="LinkMediaPaging"
+	p:linkmediaservice-ref="LinkMediaService"/>		
+
+</beans>

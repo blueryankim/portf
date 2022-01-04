@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ChattingVO" class="hooray.chatting.model.ChattingVO"/>
+	<bean id="ChattingDao" class="hooray.chatting.dao.ChattingDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap"/>
+	<bean id="ChattingService" class="hooray.chatting.service.ChattingServiceImpl"	
+		p:chattingDao-ref="ChattingDao"/>
+	<bean id="ChattingController" class="hooray.chatting.controller.ChattingController"
+		p:chattingService-ref="ChattingService"/>	
+		
+	<bean id="UploadChattingMessageController" class="hooray.chatting.controller.UploadChattingMessageController"
+		p:chattingService-ref="ChattingService"
+		p:chattingVO-ref="ChattingVO"/>
+	
+	<bean id="BringOldMessageController" class="hooray.chatting.controller.BringOldMessageController"
+		p:chattingService-ref="ChattingService"/>
+	<bean id="UpdateLogDateController" class="hooray.chatting.controller.UpdateLogDateController"
+		p:chattingService-ref="ChattingService"/>	
+</beans>

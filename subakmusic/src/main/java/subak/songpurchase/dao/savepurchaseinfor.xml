@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+    <!-- private int songnum;
+	private String id;
+	private int point;
+	private String purchastype;
+	private Date regdate; -->
+    
+<sqlMap namespace="savepurchaseinforSql">
+	<typeAlias alias="SongPurchaseVO" type="subak.songpurchase.model.SongPurchaseVO" />
+	<resultMap id="SongPurchaseResult" class="SongPurchaseVO">
+		<result property="id" column="D_ID" />
+		<result property="songnum" column="D_MNUM" />
+		<result property="regdate" column="D_DATE" />
+		
+		
+	</resultMap>    
+	
+	<insert id="saveDownloadInfor" parameterClass="SongPurchaseVO">	
+		<![CDATA[	insert into DOWNLOAD(d_id, d_mnum, d_date)
+		values(#id#,#songnum#,#regdate#) 
+	]]>
+	</insert>
+	
+	<insert id="savePlayInfor" parameterClass="SongPurchaseVO">	
+		<![CDATA[	insert into DOWNLOAD(d_id, d_mnum, d_date)
+		values(#id#,#songnum#,#regdate#) 
+	]]>
+	</insert>
+	
+</sqlMap>	

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+ 
+	<sqlMap namespace="chartSql">
+	<typeAlias alias="ChartVO" type="subak.chart.model.ChartVO" />
+	<resultMap id="ChartResult" class="ChartVO">
+		<result property="num" column="M_NUM" />
+		<result property="title" column="M_TITLE" />
+		<result property="singer" column="M_SINGER" />
+		<result property="album" column="M_ALBUM" />
+		<result property="content" column="M_CONTENT" />
+		<result property="regdate" column="M_REGDATE" />
+		<result property="pcount" column="M_PCOUNT" />
+		<result property="dcount" column="M_DCOUNT" />
+		<result property="path" column="M_PATH" />
+		
+	</resultMap>
+	
+	<select id="getChartCount" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select count(*) from MUSICLIST 
+	</select>
+	
+	<select id="getPopChartCount" parameterClass="java.util.Map" resultClass="Integer">
+		<![CDATA[select count(*) from MUSICLIST where m_genre like '%'||'팝(pop)'||'%' ]]>
+	</select>
+	
+	<select id="getGayoChartCount" parameterClass="java.util.Map" resultClass="Integer">
+		<![CDATA[select count(*) from MUSICLIST where not m_genre like '%'||'팝(pop)'||'%' ]]>
+	</select>
+	
+	
+	<!-- 재생인기차트 : 검색(play) -->
+	<select id="getPPopularList" parameterClass="java.util.Map" resultMap="ChartResult">
+		<![CDATA[select * from (select rownum rnum, m_num, m_title,m_singer,m_content,m_pcount,m_dcount,m_regdate,m_path,m_album from (select * from musiclist order by m_pcount desc)) where rnum >= #startRow# and rnum <= #endRow#
+	]]>
+							<!-- alias만들어주기 -->
+	</select>
+	
+	<!-- 다운인기차트 : 검색(down) -->
+	<select id="getDPopularList" parameterClass="java.util.Map" resultMap="ChartResult">
+		<![CDATA[select * from (select rownum rnum, m_num, m_title,m_singer,m_content,m_pcount,m_dcount,m_regdate,m_path,m_album from (select * from musiclist order by m_dcount desc)) where rnum >= #startRow# and rnum <= #endRow#
+	]]>
+							<!-- alias만들어주기 -->
+	</select>
+	
+	
+	<!-- 최신차트 : 검색(latest) -->
+	<select id="getLatestList" parameterClass="java.util.Map" resultMap="ChartResult">
+		<![CDATA[select * from (select rownum rnum, m_num, m_title,m_singer,m_content,m_pcount,m_dcount,m_regdate,m_path,m_album from (select * from musiclist order by m_regdate desc)) where rnum >= #startRow# and rnum <= #endRow#
+	]]>
+							<!-- alias만들어주기 -->
+	</select>
+
+	<select id="getPopList" parameterClass="java.util.Map" resultMap="ChartResult">
+		<![CDATA[select * from (select rownum rnum, m_num, m_title,m_singer,m_content,m_pcount,m_dcount,m_regdate,m_path,m_album from (select * from musiclist where m_genre like '%'||'팝(pop)'||'%' order by m_pcount desc)) where rnum >= #startRow# and rnum <= #endRow#
+	]]>
+							<!-- alias만들어주기 -->
+	</select>
+	
+	<select id="getGayoList" parameterClass="java.util.Map" resultMap="ChartResult">
+		<![CDATA[select * from (select rownum rnum, m_num, m_title,m_singer,m_content,m_pcount,m_dcount,m_regdate,m_path,m_album from (select * from musiclist where not m_genre like '%'||'팝(pop)'||'%' order by m_pcount desc)) where rnum >= #startRow# and rnum <= #endRow#
+	]]>
+							<!-- alias만들어주기 -->
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+  <sqlMap namespace="checkmydownSql">
+	  <typeAlias alias="CheckMyDownVO" type="subak.checkmydown.model.CheckMyDownVO" />
+	<resultMap id="CheckMyDownResult" class="CheckMyDownVO">
+		<result property="id" column="D_ID" />
+		<result property="songnum" column="D_MNUM" />
+		<result property="regdate" column="D_DATE" />
+	</resultMap>	
+
+	<select id="checkMyDown" parameterClass="CheckMyDownVO" resultClass="CheckMyDownVO">
+		select * from DOWNLOAD where D_ID=#id# and D_MNUM=#songnum#
+	</select>
+</sqlMap>
+
+
+

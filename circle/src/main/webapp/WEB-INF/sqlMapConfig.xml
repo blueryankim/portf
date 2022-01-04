@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+    
+<sqlMapConfig>
+
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" maxRequests="32" maxSessions="10"
+		maxTransactions="5" useStatementNamespaces="true" />
+		
+	<sqlMap resource="circle/checkid/dao/checkid.xml" />
+	<sqlMap resource="circle/member/dao/joinmember.xml"/>
+	<sqlMap resource="circle/member/dao/searchuniversity.xml"/>
+	<sqlMap resource="circle/member/dao/idconfirmandlogin.xml"/>
+	<sqlMap resource="circle/autocomplete/dao/autocomplete.xml"/>
+	<sqlMap resource="circle/gethomecontent/dao/gethomecontent.xml"/>
+	<sqlMap resource="circle/updateprofileimg/dao/updateprofileimg.xml"/>
+	<sqlMap resource="circle/inputtimeline/dao/inputtimeline.xml"/>
+	<sqlMap resource="circle/inputcomment/dao/inputcomment.xml"/>
+	<sqlMap resource="circle/ilikeit/dao/ilikeit.xml"/>
+	<sqlMap resource="circle/autogetallcomment/dao/autogetallcomment.xml"/>
+	
+</sqlMapConfig>

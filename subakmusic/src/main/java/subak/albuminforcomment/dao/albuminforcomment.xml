@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="albuminforcommentSql">
+	<typeAlias alias="AlbumInforCommentVO"
+		type="subak.albuminforcomment.model.AlbumInforCommentVO" />
+	<resultMap id="AlbumInforCommentResult" class="AlbumInforCommentVO">
+		<result property="commentid" column="AIC_COMMENTID" /> <!-- comment고유키 -->
+		<result property="albumnum" column="AIC_ALBUMNUM" /><!-- 앨범 넘버 -->
+		<result property="id" column="AIC_ID" />	<!-- 작성자 아이디 -->
+		<result property="comment" column="AIC_COMMENT" /> <!-- 작성 내용 -->
+		<result property="regdate" column="AIC_REGDATE" /> <!-- 등록날짜 -->
+
+	</resultMap>
+
+	<!-- 번호에 따른 커맨트 가져오기 -->
+
+
+	<select id="getAlbumInforComments" parameterClass="java.util.Map"
+		resultMap="AlbumInforCommentResult">
+		<![CDATA[select * from (select rownum rnum,aic_commentid,aic_albumnum,aic_id,aic_comment,aic_regdate from(select * from(select * from albuminforcomment where aic_albumnum=#albumnum#) order by aic_regdate desc)) where rnum >= #startRow# and rnum <= #endRow#  ]]>
+	</select>
+
+	<!-- 커멘트 입력하기 -->
+	<insert id="insertAlbumInforComment" parameterClass="AlbumInforCommentVO">
+		insert into
+		ALBUMINFORCOMMENT(AIC_COMMENTID, AIC_ALBUMNUM, AIC_ID, AIC_COMMENT, AIC_REGDATE)
+		values(ALBUMINFORCOMMENT_seq.nextval, #albumnum#, #id#, #comment#, #regdate#)
+	</insert>
+	
+	<!-- 자신이 입력한 커맨트 다시 가져오기 (확실하게 데이터베이스에 들어갔는지 확인하고 데이터를 가져옮) -->
+	<select id="getAlbumInforComment" parameterClass="java.util.Map"
+		resultMap="AlbumInforCommentResult">
+		<![CDATA[select AIC_COMMENTID,AIC_ALBUMNUM,AIC_ID,AIC_COMMENT,AIC_REGDATE from (select * from ALBUMINFORCOMMENT where AIC_ALBUMNUM=#album_num#) order by AIC_REGDATE desc ]]>
+	</select>
+	<!-- 앨범 커먼트 개수 얻어오기 -->
+	
+	<select id="getCommentCount" parameterClass="java.lang.Integer" resultClass="java.lang.Integer">
+		select count(*) from ALBUMINFORCOMMENT where AIC_ALBUMNUM=#albumnum#
+															
+	</select>
+	
+	<delete id="deleteAlbumInforComment" parameterClass="java.util.Map">
+		delete from ALBUMINFORCOMMENT where AIC_ALBUMNUM=#albumnum# and AIC_COMMENTID=#commentid#
+	
+	</delete>
+
+</sqlMap>	

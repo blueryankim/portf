@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="gethomecontentSql">
+	<typeAlias alias="LoginerInformationVO" type="circle.gethomecontent.model.LoginerInformationVO" />
+	<resultMap id="LoginerInformationResult" class="LoginerInformationVO">
+		<result property="id" column="ID" />
+		<result property="name" column="NAME" />
+		<result property="profileimg" column="PROFILEIMG"/>
+
+	</resultMap>
+	<typeAlias alias="TimelineContentVO" type="circle.gethomecontent.model.TimelineContentVO" />
+	<resultMap id="TimelineContentResult" class="TimelineContentVO">
+		
+		<result property="num" column="NUM"/>
+		<result property="id" column="ID" />
+		<result property="writer" column="WRITER"/>
+		<result property="towhom" column="TOWHOM"/>
+		<result property="content" column="CONTENT"/>
+		<result property="openscope" column="OPENSCOPE"/>
+		<result property="imagepath" column="IMAGEPATH"/>
+		<result property="ilike" column="ILIKE"/>
+		<result property="regdate" column="REGDATE"/>
+		<result property="profileimg" column="PROFILEIMG"/>
+			
+	</resultMap>
+	
+	<typeAlias alias="GetCommentVO" type="circle.gethomecontent.model.GetCommentVO" />
+	<resultMap id="GetCommentVOResult" class="GetCommentVO">
+		
+		<result property="num" column="C_NUM"/>
+		<result property="gulnum" column="C_GULNUM" />
+		<result property="id" column="C_ID"/>
+		<result property="writer" column="C_WRITER"/>
+		<result property="comment" column="C_COMMENT"/>
+		<result property="regdate" column="C_REGDATE"/>
+		<result property="profileimg" column="PROFILEIMG"/>
+		
+			
+	</resultMap>
+	
+	<typeAlias alias="CommentCountVO" type="circle.gethomecontent.model.CommentCountVO" />
+	<resultMap id="CommentCountVOResult" class="CommentCountVO">
+		
+		<result property="gulnum" column="C_GULNUM"/>
+		<result property="commentcount" column="COMMENTCOUNT" />
+		
+	</resultMap>
+	
+	
+	
+	
+	<select id="getTimeArr" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select TIMELINEARR from MEMBER where ID=#id#
+		
+	</select>
+	
+	<select id="getTimelineCount" parameterClass="java.lang.String"
+		resultClass="java.lang.Integer">
+		select count(*) from POSTING WHERE ((OPENSCOPE='전체공개' OR OPENSCOPE='친구만보기') AND (ID IN (select FRIEND_ID from FRIENDLIST where ME_ID=#id# AND FLAG=1 ) OR ID=#id#) OR ( OPENSCOPE='나만보기' AND ID=#id#))
+	</select>
+	
+	<select id="getPopularTime" parameterClass="java.lang.String" resultClass="java.util.Date">
+		<![CDATA[select MAX(RENEWDATE) from POSTING WHERE (OPENSCOPE='전체공개' OR OPENSCOPE='친구만보기' AND (ID IN (select FRIEND_ID from FRIENDLIST where ME_ID=#id# AND FLAG=1) OR ID=#id#) OR (OPENSCOPE='나만보기' AND ID=#id#))]]>
+	</select>
+																							
+	<select id="getPopTimelineList" parameterClass="java.util.Map" resultMap="TimelineContentResult">
+	<![CDATA[
+
+	select * from (select rownum rnum, num, id, writer,towhom,content,openscope,imagepath,ilike,regdate,profileimg from (select DISTINCT POSTING.*,MEMBER.profileimg from POSTING,MEMBER WHERE ((((OPENSCOPE='전체공개' OR OPENSCOPE='친구만보기') AND ((POSTING.ID IN (SELECT FRIEND_ID FROM FRIENDLIST WHERE me_id=#id# AND flag=1)) OR POSTING.id=#id#)) OR (OPENSCOPE='나만보기' AND POSTING.id=#id#)) AND renewdate <=#kindoftime#) AND POSTING.ID=MEMBER.ID  ORDER BY renewdate DESC )) where rnum >= #starttimeline# and rnum <= #endtimeline# ]]>
+	
+	</select>
+	
+	<select id="getPopCommentList" parameterClass="java.util.Map" resultMap="GetCommentVOResult">
+	<![CDATA[
+	SELECT c_num,c_gulnum,c_id,c_writer,c_regdate,c_comment,profileimg FROM (SELECT POSTINGCOMMENT.* FROM (select * from (select rownum rnum, num from (select DISTINCT * from POSTING WHERE ((((OPENSCOPE='전체공개' OR OPENSCOPE='친구만보기') AND ((POSTING.ID IN (SELECT FRIEND_ID FROM FRIENDLIST WHERE me_id=#id# AND flag=1)) OR POSTING.id=#id#)) OR (OPENSCOPE='나만보기' AND POSTING.id=#id#)) AND renewdate <=#kindoftime#) ORDER BY renewdate DESC )) where rnum >= #starttimeline# and rnum <= #endtimeline#),POSTINGCOMMENT WHERE POSTINGCOMMENT.C_GULNUM=num),member WHERE c_id=member.id ORDER BY c_regdate ASC 
+	]]>
+	</select>
+	<select id="getLatestTime" parameterClass="java.lang.String" resultClass="java.util.Date">
+	select MAX(REGDATE) from POSTING WHERE (OPENSCOPE='전체공개' OR OPENSCOPE='친구만보기' AND (ID IN (select FRIEND_ID from FRIENDLIST where ME_ID=#id# AND FLAG=1) OR ID=#id#) OR (OPENSCOPE='나만보기' AND ID=#id#)) 
+	</select>
+	
+	<select id="getLatTimelineList" parameterClass="java.util.Map" resultMap="TimelineContentResult">
+	<![CDATA[
+	select * from (select rownum rnum, num, id, writer,towhom,content,openscope,imagepath,ilike,regdate,profileimg from (select DISTINCT POSTING.*,MEMBER.profileimg from POSTING,MEMBER WHERE ((((OPENSCOPE='전체공개' OR OPENSCOPE='친구만보기') AND ((POSTING.ID IN (SELECT FRIEND_ID FROM FRIENDLIST WHERE me_id=#id# AND flag=1)) OR POSTING.id=#id#)) OR (OPENSCOPE='나만보기' AND POSTING.id=#id#)) AND renewdate IS NULL AND POSTING.regdate <=#kindoftime#)  AND POSTING.ID=MEMBER.ID  ORDER BY POSTING.regdate DESC )) where rnum >= #starttimeline# and rnum <= #endtimeline#
+	
+	]]>
+	</select>
+	
+	<select id="getLatCommentList" parameterClass="java.util.Map" resultMap="GetCommentVOResult">
+	<![CDATA[
+	SELECT c_num,c_gulnum,c_id,c_writer,c_regdate,c_comment,profileimg FROM (SELECT POSTINGCOMMENT.* FROM (select * from (select rownum rnum, num from (select DISTINCT * from POSTING WHERE ((((OPENSCOPE='전체공개' OR OPENSCOPE='친구만보기') AND ((POSTING.ID IN (SELECT FRIEND_ID FROM FRIENDLIST WHERE me_id=#id# AND flag=1)) OR POSTING.id=#id#)) OR (OPENSCOPE='나만보기' AND POSTING.id=#id#)) AND renewdate IS NULL AND POSTING.regdate <=#kindoftime#) ORDER BY POSTING.regdate DESC )) where rnum >= #starttimeline# and rnum <= #endtimeline#),POSTINGCOMMENT WHERE POSTINGCOMMENT.C_GULNUM=num),member WHERE c_id=member.id ORDER BY c_regdate ASC  
+	
+	]]>
+	</select>
+	
+	<select id="getPopCommentCountList" parameterClass="java.util.Map" resultMap="CommentCountVOResult">
+	<![CDATA[
+	SELECT c_gulnum, COUNT(*) AS commentcount FROM (SELECT c_gulnum FROM (SELECT POSTINGCOMMENT.* FROM (select * from (select rownum rnum, num from (select DISTINCT * from POSTING WHERE ((((OPENSCOPE='전체공개' OR OPENSCOPE='친구만보기') AND ((POSTING.ID IN (SELECT FRIEND_ID FROM FRIENDLIST WHERE me_id=#id# AND flag=1)) OR POSTING.id=#id#)) OR (OPENSCOPE='나만보기' AND POSTING.id=#id#)) AND renewdate <=#kindoftime#) ORDER BY renewdate DESC )) where rnum >= #starttimeline# and rnum <= #endtimeline#),POSTINGCOMMENT WHERE POSTINGCOMMENT.C_GULNUM=num),member WHERE c_id=member.id) GROUP BY c_gulnum 
+	]]>
+	</select>
+	
+	<select id="getLatCommentCountList" parameterClass="java.util.Map" resultMap="CommentCountVOResult">
+	<![CDATA[
+	SELECT c_gulnum, COUNT(*) AS commentcount FROM ( SELECT c_gulnum FROM (SELECT POSTINGCOMMENT.* FROM (select * from (select rownum rnum, num from (select DISTINCT * from POSTING WHERE ((((OPENSCOPE='전체공개' OR OPENSCOPE='친구만보기') AND ((POSTING.ID IN (SELECT FRIEND_ID FROM FRIENDLIST WHERE me_id=#id# AND flag=1)) OR POSTING.id=#id#)) OR (OPENSCOPE='나만보기' AND POSTING.id=#id#)) AND renewdate IS NULL AND POSTING.regdate <=#kindoftime#) ORDER BY POSTING.regdate DESC )) where rnum >= #starttimeline# and rnum <= #endtimeline#),POSTINGCOMMENT WHERE POSTINGCOMMENT.C_GULNUM=num),member WHERE c_id=member.id ) GROUP BY c_gulnum
+	]]>
+	</select>
+	
+	<update id="setCommentCount" parameterClass="java.util.Map">
+		update POSTING set COMMENTCOUNT=#commentcount# where NUM=#gulnum# 
+	
+	</update>
+	
+	<select id="getLoginerInformation" parameterClass="java.lang.String" resultMap="LoginerInformationResult">
+		select id,name,profileimg from MEMBER where id=#id#
+	</select>
+
+	
+	
+	<select id="getLatestCommentTime" parameterClass="java.lang.String" resultClass="java.util.Date">
+		select MAX(C_REGDATE) from POSTINGCOMMENT WHERE C_ID IN (select FRIEND_ID from FRIENDLIST where ME_ID=#id# AND FLAG=1) OR c_id=#id#
+		
+	
+	</select>
+	
+</sqlMap>
+	

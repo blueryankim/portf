@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<!-- Dao 설정 -->
+<bean id="chartDao" class="subak.chart.dao.ChartDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap" />
+<!-- Model -->
+<bean id="ChartPaging" class="subak.chart.model.Paging" />
+<!-- Controller -->
+<bean id="ChartListController" class="subak.chart.controller.ChartListController"
+	p:chartListService-ref="ChartListService"
+	p:chartPaging-ref="ChartPaging"></bean>
+<!-- Service -->
+<bean id="ChartListService" class="subak.chart.service.ChartListServiceImpl"
+	p:chartdao-ref="chartDao"></bean>
+
+
+</beans>	

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<!-- DAO -->
+	<bean id="myPageDao" class="subak.myPage.dao.MyPageDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap" />
+	
+	<!-- Model -->
+	<bean id="myPagePaging" class="subak.myPage.model.Paging" />
+	
+	<!-- Controller -->
+	<bean id="MyPageHomeController" class="subak.myPage.controller.MyPageHomeController"
+		p:MyPageHomeService-ref="MyPageHomeService" />
+	<bean id="mpPointListController" class="subak.myPage.controller.MPPointListController"
+		p:mpPointListService-ref="mpPointListService"
+		p:myPagePaging-ref="myPagePaging" />
+	<bean id="mpDownloadListController" class="subak.myPage.controller.MPDownloadListController"
+		p:mpDownloadListService-ref="mpDownloadListService"
+		p:myPagePaging-ref="myPagePaging" />
+	<bean id="mpMyAlbumListController" class="subak.myPage.controller.MPMyAlbumListController"
+		p:mpMyAlbumListService-ref="mpMyAlbumListService"
+		p:myPagePaging-ref="myPagePaging" />
+	<bean id="mpUpdateMemberController" class="subak.myPage.controller.MPUpdateMemberController"
+		p:mpUpdateMemberService-ref="mpUpdateMemberService" />
+	<bean id="mpDeleteMemberController" class="subak.myPage.controller.MPDeleteMemberController"
+		p:mpDeleteMemberService-ref="mpDeleteMemberService" />
+	
+	<!-- Service -->
+	<bean id="MyPageHomeService" class="subak.myPage.service.MyPageHomeServiceImpl"
+		p:myPageDao-ref="myPageDao" />
+	<bean id="mpPointListService" class="subak.myPage.service.MPPointListServiceImpl"
+		p:myPageDao-ref="myPageDao" />
+	<bean id="mpDownloadListService" class="subak.myPage.service.MPDownloadListServiceImpl"
+		p:myPageDao-ref="myPageDao" />
+	<bean id="mpMyAlbumListService" class="subak.myPage.service.MPMyAlbumListServiceImpl"
+		p:myPageDao-ref="myPageDao" />
+	<bean id="mpUpdateMemberService" class="subak.myPage.service.MPUpdateMemberServiceImpl"
+		p:myPageDao-ref="myPageDao" />
+	<bean id="mpDeleteMemberService" class="subak.myPage.service.MPDeleteMemberServiceImpl"
+		p:myPageDao-ref="myPageDao" />
+
+</beans>

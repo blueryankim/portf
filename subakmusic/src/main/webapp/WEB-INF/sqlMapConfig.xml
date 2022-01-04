@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+    
+<sqlMapConfig>
+
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" maxRequests="32" maxSessions="10"
+		maxTransactions="5" useStatementNamespaces="true" />
+		
+	<!-- 박성희 -->
+	<sqlMap resource="subak/myPage/dao/myPage.xml" />
+	
+	<!-- 박소연 -->
+	<sqlMap resource="subak/member/dao/member.xml" />
+	
+	<!-- 우동환 -->
+	<sqlMap resource="subak/home/dao/login.xml" />
+	<sqlMap resource="subak/help/dao/help.xml"/>
+	<sqlMap resource="subak/home/dao/sharealbumlist.xml"/>
+	<!-- datebase ibatis 설정파일 경로
+	<sqlMap resource="comment/dao/comment.xml" /> -->
+	 
+	<!-- 김승우 -->
+	<sqlMap resource="subak/uploadsong/dao/uploadsong.xml" />
+	<sqlMap resource="subak/chart/dao/chart.xml" />
+	<sqlMap resource="subak/musicplayer/dao/musicplayer.xml" />
+	<sqlMap resource="subak/albuminfor/dao/albuminfor.xml"/>
+	<sqlMap resource="subak/albuminforcomment/dao/albuminforcomment.xml"/>
+	<sqlMap resource="subak/uploadlink/dao/uploadlink.xml"/>
+	<sqlMap resource="subak/linkmedia/dao/linkmedia.xml"/>
+	<sqlMap resource="subak/download/dao/download.xml" />
+	<sqlMap resource="subak/songpurchase/dao/getmemberpoint.xml" />
+	<sqlMap resource="subak/songpurchase/dao/savepointinfor.xml" />
+	<sqlMap resource="subak/songpurchase/dao/savepurchaseinfor.xml" />
+	<sqlMap resource="subak/songpurchase/dao/updateclickcount.xml" />
+	<sqlMap resource="subak/songpurchase/dao/updatememberpoint.xml" />
+	<sqlMap resource="subak/takemypoint/dao/takemypoint.xml" />
+	<sqlMap resource="subak/checkmydown/dao/checkmydown.xml" />
+	<sqlMap resource="subak/searchmusic/dao/searchmusic.xml"/>
+	<sqlMap resource="subak/uploadsharealbum/dao/uploadsharealbum.xml"/>
+	<sqlMap resource="subak/sharealbumlist/dao/sharealbumlist.xml"/>
+	<sqlMap resource="subak/mysharealbum/dao/mysharealbum.xml"/>
+	<sqlMap resource="subak/uprecommendation/dao/uprecommendation.xml"/>
+	<sqlMap resource="subak/mysharealbum/dao/deletemysharealbum.xml"/>
+	<sqlMap resource="subak/pointaccumulation/dao/pointaccumulation.xml"/>
+	
+	<!-- 임광혁 -->
+	<sqlMap resource="subak/fcomment/dao/Fcomment.xml" />   
+	<sqlMap resource="subak/fboard/dao/Fboard.xml" />
+	<sqlMap resource="subak/qcomment/dao/Qcomment.xml" />   
+	<sqlMap resource="subak/qboard/dao/Qboard.xml" />
+	<sqlMap resource="subak/nboard/dao/board.xml" />
+	
+</sqlMapConfig>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="uploadlinkSql">
+	<typeAlias alias="UploadLinkVO" type="subak.uploadlink.model.UploadLinkVO" />
+	<resultMap id="UploadLinkResult" class="UploadLinkVO">
+		<result property="songname" column="LM_LINKNAME" />
+		<result property="linkaddress" column="LM_LINKADDRESS" />
+		<result property="content" column="LM_CONTENT" />
+		<result property="genre" column="LM_GENRE"/>
+		<result property="regdate" column="LM_REGDATE"/>
+		</resultMap>
+		
+		<insert id="insertLinkMedia" parameterClass="UploadLinkVO">
+		<![CDATA[
+		insert into LINKMEDIA(lm_linkid, lm_linkname, lm_linkaddress, lm_content, lm_genre) 
+		values(LINKMEDIA_seq.nextval,#songname#,#linkaddress#,
+			#content#,#genre#) ]]>
+		</insert> 
+		
+		<select id="getLinkNum" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select LM_LINKID from LINKMEDIA where LM_LINKNAME=#songname#
+		</select>
+	
+	</sqlMap>   

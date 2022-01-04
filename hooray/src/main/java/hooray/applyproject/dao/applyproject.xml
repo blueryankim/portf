@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+ 
+	<sqlMap namespace="applyProjectSql">
+	
+	<insert id="applyProject" parameterClass="java.util.Map">
+	
+	<![CDATA[	insert into H_PROJECT_PEOPLE(pp_num,p_num,email,appdate,chlogdate) values(H_PROJECT_PEOPLE_SEQ.nextval,#pnum#,#email#,sysdate,sysdate)]]> 
+	
+	</insert>
+	
+	<insert id="insertChatting" parameterClass="java.util.Map">
+		<![CDATA[	insert into H_CHATTING_PEOPLE(c_num,p_num,email) values(H_CHATTING_PEOPLE_SEQ.nextval,#pnum#,#email#)]]> 
+	
+	</insert> 
+	
+	<update id="updatecurrentpeople" parameterClass="java.lang.Integer">
+				update H_PROJECT_BOARD set currentpeople=currentpeople+1 where p_num=#pnum#
+			
+	</update>
+	
+	<select id="confirmApply" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+	
+		select count(*) from H_PROJECT_PEOPLE where email=#email# and p_num=#pnum#
+	</select>
+	
+	<select id="confirmApplyBefore" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+	
+		select count(*) from H_PROJECT_PEOPLE where email=#email# and p_num=#pnum#
+	</select>
+	
+	
+	</sqlMap>

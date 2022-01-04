@@ -1,0 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!-- 테이블 관련 -->
+<c:set var="th_bg" value="#E7E7E7" />
+<c:set var="spline_3px" value="#C2C2C2" />
+<c:set var="spline_1px" value="#E0E0E0" />
+<c:set var="spline_2px" value="#E0E0E0" />
+<c:set var="tr_onmouseover" value="#F2F2F2" />
+
+<!-- Sub 페이지 관련 -->
+<c:set var="subTitle" value="#333333" />
+<c:set var="subPoint" value="#072400" />
+
+<!-- 앨범인포 -->
+<c:set var="Info_spline_3px" value="#072500" />

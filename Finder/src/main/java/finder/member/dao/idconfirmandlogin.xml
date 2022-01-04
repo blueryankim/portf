@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="idconfirmandloginSql">
+	<typeAlias alias="IdConfirmAndLoginVO" type="finder.member.model.IdConfirmAndLoginVO" />
+	
+	<select id="idConfirm" parameterClass="java.lang.String"
+		resultClass="java.lang.Integer">
+		select count(*) from MEMBER where ID=#loginid# 
+	</select>
+	
+	<select id="inputConfirm" parameterClass="IdConfirmAndLoginVO"
+		resultClass="java.lang.Integer">
+		select count(*) from MEMBER where ID=#loginid# AND PASS=#loginpass#
+	</select>
+	
+	</sqlMap>

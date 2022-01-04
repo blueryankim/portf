@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+ 
+	<sqlMap namespace="getCommentSql">
+	<typeAlias alias="GetCommentVO" type="hooray.getcomment.model.GetCommentVO"/>
+	<resultMap id="GetCommentResult" class="GetCommentVO">
+	<result property="commentNum" column="PC_NUM"/>		
+	<result property="projectNum" column="P_NUM"/>
+	<result property="email" column="EMAIL"/>
+	<result property="name" column="NAME"/>
+	<result property="comment" column="P_COMMENT"/>
+	<result property="regdate" column="REGDATE"/>
+	</resultMap>	
+	
+	<select id="getAllComment" parameterClass="java.util.Map" resultMap="GetCommentResult">
+		<![CDATA[  select * from (select rownum rnum,pc_num, p_num,email,name,p_comment,regdate from (select * from H_PROJECT_COMMENT where p_num=#projectNum# order by regdate desc)) where rnum >= #start_row# and rnum <=#end_row# ]]>
+	
+	</select>
+	
+	<select id="getCommentCount" parameterClass="java.lang.Integer" resultClass="java.lang.Integer">
+		select count(*) from H_PROJECT_COMMENT where p_num=#projectNum#
+	
+	</select>
+	
+	<insert id="uploadComment" parameterClass="GetCommentVO">
+		insert into H_PROJECT_COMMENT(pc_num,p_num,email,name,p_comment,regdate) values(H_PROJECT_COMMENT_SEQ.nextval,#projectNum#,#email#,#name#,#comment#,sysdate)
+	
+	</insert>
+	
+	<select id="getLastCommentDate" parameterClass="java.util.Map" resultClass="java.util.Date">
+		select max(regdate) from H_PROJECT_COMMENT where p_num=#projectNum# and email=#email#
+		
+	</select>
+	
+	<select id="getCommentListFirst" parameterClass="java.util.Map" resultMap="GetCommentResult">
+		<![CDATA[select pc_num,p_num,email,NAME,p_comment, regdate from H_PROJECT_COMMENT where regdate <= #lastCommentDate# and p_num=#projectNum# order by regdate asc ]]>
+	
+	
+			
+	</select>
+	
+	
+	<select id="getCommentList" parameterClass="java.util.Map" resultMap="GetCommentResult">
+		<![CDATA[ select * from H_PROJECT_COMMENT where regdate > #lastCommentDate# and regdate <= #currentCommentDate# and p_num=#projectNum# order by regdate asc  ]]>
+	
+	</select>
+	
+	<update id="updateComment" parameterClass="java.util.Map">
+			update H_PROJECT_COMMENT set p_comment=#comment# where pc_num=#commentNum# 
+	
+	</update>
+	
+	<delete id="deleteComment" parameterClass="java.lang.Integer">
+			delete from H_PROJECT_COMMENT where pc_num=#commentNum#
+			
+	
+	</delete>
+	
+	</sqlMap>
+	

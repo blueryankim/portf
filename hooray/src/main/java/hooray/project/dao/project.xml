@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+ 
+	<sqlMap namespace="projectSql">
+	
+	<update id="plusProjectCount" parameterClass="java.lang.Integer">
+		update H_PROJECT_BOARD set count=count+1 where p_num=#projectNum# 
+	
+	</update>
+	
+	<update id="minusCurrentPeople" parameterClass="java.util.Map">
+		update H_PROJECT_BOARD set currentpeople=currentpeople-1 where p_num=#projectNum#
+	
+	</update>
+	
+	<delete id="cancelAppProject" parameterClass="java.util.Map">
+		
+		delete from H_PROJECT_PEOPLE where p_num=#projectNum# and email=#email#	
+	
+	</delete>
+	
+	
+	
+	</sqlMap>

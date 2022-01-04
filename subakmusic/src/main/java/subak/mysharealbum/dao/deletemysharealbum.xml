@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+    
+
+   <sqlMap namespace="deletemysharealbumSql">
+   
+	<typeAlias alias="MyShareAlbumVO" type="subak.mysharealbum.model.MyShareAlbumVO" />
+	<resultMap id="MyShareAlbumResult" class="MyShareAlbumVO">
+		<result property="listnum" column="A_NUM" />
+		</resultMap>
+		
+	<delete id="deleteMyShareAlbum" parameterClass="java.lang.Integer">
+	delete from ALBUM where A_NUM=#listnum#
+	
+	</delete>
+	</sqlMap>

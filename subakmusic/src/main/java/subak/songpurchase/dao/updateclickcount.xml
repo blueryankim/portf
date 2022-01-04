@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+  
+  <sqlMap namespace="updateclickcountSql">
+	<typeAlias alias="SongPurchaseVO" type="subak.songpurchase.model.SongPurchaseVO" />
+	<resultMap id="SongPurchaseResult" class="SongPurchaseVO">
+		<result property="songnum" column="M_NUM"/>
+	</resultMap>
+	
+	<update id="updateDownloadCount" parameterClass="SongPurchaseVO">
+	update MUSICLIST set M_DCOUNT=M_DCOUNT+1 where M_NUM=#songnum#  
+	</update>
+	
+	<update id="updatePlayCount" parameterClass="SongPurchaseVO">
+	update MUSICLIST set M_PCOUNT=M_PCOUNT+1 where M_NUM=#songnum# 
+	</update>
+</sqlMap>	

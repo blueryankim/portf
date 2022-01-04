@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+    <sqlMap namespace="uprecommendationSql">
+	
+	<update id="upRecommendation" parameterClass="java.lang.Integer">
+	
+	update ALBUM set A_RECOM=A_RECOM+1 where A_NUM=#listnum#	
+	</update>
+
+	<select id="getRecomCount" parameterClass="java.lang.Integer" resultClass="java.lang.Integer">
+	select A_RECOM from ALBUM where A_NUM=#listnum# 
+	
+	</select>
+	</sqlMap>

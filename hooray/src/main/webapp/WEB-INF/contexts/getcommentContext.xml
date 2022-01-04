@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="Paging" class="hooray.getcomment.model.Paging"/>
+	<bean id="GetCommentVO" class="hooray.getcomment.model.GetCommentVO"/>
+	<bean id="GetCommentDao" class="hooray.getcomment.dao.GetCommentDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap"/>
+	<bean id="GetCommentService" class="hooray.getcomment.service.GetCommentServiceImpl"
+		p:getCommentDao-ref="GetCommentDao"/>
+	<bean id="GetCommentController" class="hooray.getcomment.controller.GetCommentController"
+		p:getAProjectService-ref="GetAProjectService"
+		p:getCommentService-ref="GetCommentService"
+		p:applyProjectService-ref="ApplyProjectService"
+		p:commentPaging-ref="Paging"
+		p:getCommentVO-ref="GetCommentVO"/>
+		
+	<bean id="UpdateCommentController" class="hooray.getcomment.controller.UpdateCommentController"
+		p:getCommentService-ref="GetCommentService"/>
+	<bean id="DeleteCommentController" class="hooray.getcomment.controller.DeleteCommentController"
+		p:getCommentService-ref="GetCommentService"/>	
+		
+</beans>

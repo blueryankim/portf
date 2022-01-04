@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="commentSql">
+	<typeAlias alias="comment" type="subak.qcomment.model.QCommentVO" />
+	<resultMap id="commentResult" class="comment">
+		<result property="comment_id" column="COMMENT_ID" />
+		<result property="num" column="NUM" />
+		<result property="comment_name" column="COMMENT_NAME" />
+		<result property="comment" column="COMMENTS" />
+		<result property="regdate" column="REGDATE" />
+	</resultMap>
+	<!-- 전체 글수 가져오기 -->
+	<select id="getListCount" resultClass="integer">
+		select count(*) from QBOARD_COMMENT
+	</select>
+	<select id="nextVal" resultClass="integer">
+		select
+		QBOARD_COMMENT_SEQ.nextval from dual
+	</select>
+	<!-- 글가져오기염 -->
+	<select id="getList" parameterClass="java.util.Map" resultMap="commentResult">
+		select * from(select ROWNUM rnum,COMMENT_ID,NUM,
+		COMMENT_NAME,COMMENTS,REGDATE from
+		(select * from QBOARD_COMMENT where NUM = #num# order by COMMENT_ID ASC))
+		where rnum BETWEEN #start# AND #end#
+	</select>
+	<!-- insertMessage : 댓글쓰기 -->
+	<insert id="insertMessage" parameterClass="comment">
+		insert into
+		QBOARD_COMMENT(COMMENT_ID,NUM,COMMENT_NAME,COMMENTS,REGDATE)
+		values(#comment_id#, #num#, #comment_name#,#comment#,#regdate#)
+	</insert>
+	<!-- updateMessage 댓글수정 -->
+	<update id="updateMessage" parameterClass="comment">
+		update QBOARD_COMMENT
+		set COMMENTS = #comment#
+		where COMMENT_ID = #comment_id#
+	</update>
+	<!-- deleteMessage 댓글삭제 -->
+	<delete id="deleteMessage" parameterClass="integer">
+		delete from
+		QBOARD_COMMENT
+		where COMMENT_ID = #comment_id#
+	</delete>
+</sqlMap>

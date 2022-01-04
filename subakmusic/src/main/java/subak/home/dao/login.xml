@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC
+	"-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="loginSql">
+
+	<typeAlias alias="login_memberVO" type="subak.home.model.MemberVO" />
+	<resultMap id="MemberResult" class="login_memberVO">
+		<result property="id" column="ID" />
+		<result property="name" column="NAME" />
+		<result property="pass" column="PASS" />
+		<result property="phone1" column="PHONE1" />
+		<result property="phone2" column="PHONE2" />
+		<result property="phone3" column="PHONE3" />
+		<result property="email" column="EMAIL" />
+		<result property="birth1" column="BIRTH1" />
+		<result property="birth2" column="BIRTH2" />
+		<result property="birth3" column="BIRTH3" />
+		<result property="f_singer" column="F_SINGER" />
+		<result property="f_genre" column="F_GENRE" />
+		<result property="point" column="POINT" />
+		<result property="regdate" column="REGDATE" />
+	</resultMap>
+
+	<!-- 패스워드 찾기 -->
+	<select id="getPass" parameterClass="String" resultClass="String">
+		select pass from member where id = #id#
+	</select>
+
+	<!-- 멤버 정보 빼오기 -->
+	<select id="getMemberInfo" parameterClass="String" resultClass="login_memberVO">
+		select * from member where id = #id#
+	</select>
+	
+</sqlMap>

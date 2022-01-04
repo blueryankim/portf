@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+  
+  <sqlMap namespace="updatememberpointSql">
+	<typeAlias alias="SongPurchaseVO" type="subak.songpurchase.model.SongPurchaseVO" />
+	<resultMap id="SongPurchaseResult" class="SongPurchaseVO">
+		<result property="id" column="ID"/>
+	</resultMap>
+	
+	<update id="updateMemberPoint" parameterClass="SongPurchaseVO">
+	update MEMBER set POINT=POINT-#point# where ID=#id#  
+	</update>
+</sqlMap>	

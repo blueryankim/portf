@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="ilikeitSql">
+<typeAlias alias="ILikeItVO" type="circle.ilikeit.model.ILikeItVO" />
+	<resultMap id="ILikeItVOResult" class="ILikeItVO">
+		<result property="ilike" column="ILIKE" />
+		<result property="likingpeople" column="LIKINGPEOPLE" />
+		
+	
+	</resultMap>
+
+<select id="getLikingList" parameterClass="java.lang.Integer" resultMap="ILikeItVOResult">
+		select likingpeople,ilike from POSTING where num=#timelinenum#
+
+</select>
+<update id="setLikingInfor" parameterClass="ILikeItVO">
+		update POSTING set likingpeople=#likingpeople#, ilike=#ilike# where num=#timelinenum# 
+			
+	
+</update>
+
+<select id="getName" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select name from MEMBER where id=#id#
+
+</select>
+
+</sqlMap>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+ 
+	<sqlMap namespace="getApplicantSql">
+	<typeAlias alias="GetApplicantVO" type="hooray.getapplicant.model.GetApplicantVO"/>
+	<resultMap id="GetApplicantResult" class="GetApplicantVO">
+	<result property="email" column="EMAIL"/>		
+	<result property="name" column="NAME"/>
+	<result property="appDate" column="APPDATE"/>
+	<result property="v_count" column="V_COUNT"/>
+	<result property="d_count" column="D_COUNT"/>
+	</resultMap>	
+	
+	<select id="getApplicantList" parameterClass="java.lang.Integer" resultMap="GetApplicantResult">
+	SELECT H_MEMBER.email,H_MEMBER.NAME,H_MEMBER.V_COUNT,H_MEMBER.D_COUNT,appdate FROM H_PROJECT_PEOPLE,H_MEMBER WHERE H_PROJECT_PEOPLE.p_num=#projectNum# AND H_MEMBER.EMAIL=H_PROJECT_PEOPLE.EMAIL	
+	</select>
+	
+	<select id="getApplicantCount" parameterClass="java.lang.Integer" resultClass="java.lang.Integer">
+	select count(*) from H_PROJECT_PEOPLE where p_num=#projectNum#
+	
+	</select>
+	
+	<select id="getMemberProjectCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+	select count(*) from H_PROJECT_BOARD where email=#email#
+	
+	
+	</select>
+	</sqlMap>
+	

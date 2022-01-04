@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="ILikeItVO" class="circle.ilikeit.model.ILikeItVO"/>
+<bean id="ILikeItNameAndIdVO" class="circle.ilikeit.model.ILikeItNameAndIdVO"/>
+<bean id="ILikeItDao" class="circle.ilikeit.dao.ILikeItDaoImpl"
+	p:sqlMapClient-ref="BaseDBSqlMap"/>
+<bean id="ILikeItService" class="circle.ilikeit.service.ILikeItServiceImpl"
+	p:ild-ref="ILikeItDao"/>
+<bean id="ILikeItController" class="circle.ilikeit.controller.ILikeItController"
+	p:ils-ref="ILikeItService"
+	p:ilivo-ref="ILikeItVO"
+	p:inaivo-ref="ILikeItNameAndIdVO"/>
+
+
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="HomeDao" class="finder.home.dao.HomeDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap"/> 
+<bean id="LoginerInforVO" class="finder.home.model.LoginerInforVO"></bean>		
+<bean id="HomeService" class="finder.home.service.HomeServiceImpl"
+		p:hd-ref="HomeDao"></bean>			
+<bean id="HomeController" class="finder.home.controller.HomeController"
+		p:livo-ref="LoginerInforVO"
+		p:hs-ref="HomeService"></bean>		
+	
+</beans>

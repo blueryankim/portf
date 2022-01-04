@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="GetAProjectDao" class="hooray.getproject.dao.GetAProjectDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap"/>
+	<bean id="GetAProjectService" class="hooray.getproject.service.GetAProjectServiceImpl"
+		p:getAProjectDao-ref="GetAProjectDao"/>
+	<bean id="GetAProjectController" class="hooray.getproject.controller.GetAProjectController"
+		p:getAProjectService-ref="GetAProjectService"
+		p:applyProjectService-ref="ApplyProjectService"
+		p:plusCountService-ref="PlusCountService"
+		p:getCommentService-ref="GetCommentService"/>	
+		
+	<bean id="GetProjectsDao" class="hooray.getproject.dao.GetProjectsDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap"/>
+	<bean id="GetProjectsService" class="hooray.getproject.service.GetProjectsServiceImpl"
+		p:getProjectsDao-ref="GetProjectsDao"/>
+	<bean id="GetProjectsController" class="hooray.getproject.controller.GetProjectsController"
+		p:getProjectsService-ref="GetProjectsService"/>
+		
+
+</beans>

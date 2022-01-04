@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="addmemberSql">
+	<typeAlias alias="JoinVO" type="finder.member.model.JoinVO" />
+	<resultMap id="JoinResult" class="JoinVO">
+		<result property="memberid" column="ID" />
+		<result property="name" column="NAME" />
+		<result property="pass" column="PASS" />
+		<result property="regdate" column="REGDATE" />
+		<result property="email" column="EMAIL"/>
+	</resultMap>
+
+	<!-- 회원가입(Add) -->
+	<insert id="addMember" parameterClass="JoinVO">
+		<![CDATA[
+		insert into MEMBER(id, name, pass, regdate, email) values(#memberid#, #name#, #pass#, sysdate,#email#)
+		]]>
+	</insert>
+</sqlMap>
+    

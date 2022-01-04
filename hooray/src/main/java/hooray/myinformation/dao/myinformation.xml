@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+ 
+	<sqlMap namespace="myInformationSql">
+	
+	<typeAlias alias="MyInformationVO" type="hooray.myinformation.model.MyInformationVO" />
+	<resultMap id="MyInformationResult" class="MyInformationVO">
+		
+		<result property="email" column="EMAIL"/>
+		<result property="name" column="NAME" />
+		<result property="v_count" column="V_COUNT"/>
+		<result property="d_count" column="D_COUNT"/>
+
+	</resultMap>
+	<typeAlias alias="ProjectVO" type="hooray.myinformation.model.ProjectVO" />
+	<resultMap id="ProjectResult" class="ProjectVO">
+		
+		<result property="projectNum" column="P_NUM"/>
+		<result property="maintitle" column="MAINTITLE" />
+		<result property="currentpeople" column="CURRENTPEOPLE"/>
+		<result property="limitpeople" column="LIMITPEOPLE"/>
+		<result property="leavedate" column="LEAVEDATE"/>
+		
+	</resultMap>
+	
+	<select id="getMyInformation" parameterClass="java.lang.String" resultClass="MyInformationVO">
+			select email,name,v_count,d_count from H_MEMBER where email=#email#
+	
+	</select>
+	
+	<select id="getMyProjectCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+			<![CDATA[select count(*) from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and email=#email#]]>
+	</select>
+	
+	<select id="getAppProjectCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+	<![CDATA[SELECT COUNT(*) FROM (SELECT * FROM H_PROJECT_PEOPLE,H_PROJECT_BOARD WHERE H_PROJECT_PEOPLE.EMAIL=#email# AND  H_PROJECT_PEOPLE.P_NUM=H_PROJECT_BOARD.P_NUM and H_PROJECT_PEOPLE.email!=H_PROJECT_BOARD.email) WHERE TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0	]]>
+	</select>
+	
+	<select id="getEndProjectCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+	
+		<![CDATA[SELECT COUNT(*) FROM (SELECT * FROM H_PROJECT_PEOPLE,H_PROJECT_BOARD WHERE H_PROJECT_PEOPLE.EMAIL=#email# AND  H_PROJECT_PEOPLE.P_NUM=H_PROJECT_BOARD.P_NUM and H_PROJECT_PEOPLE.email!=H_PROJECT_BOARD.email)  WHERE TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') < 0	]]>
+	
+	</select>
+	
+	<select id="getMyProjectList" parameterClass="java.util.Map" resultMap="ProjectResult">
+	<![CDATA[select * from (select rownum rnum, p_num, maintitle, currentpeople, regdate, limitpeople, TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and email=#email#)) where rnum >=#start_row# and rnum <=#end_row# order by regdate desc]]>
+			
+	
+	</select>
+	
+	<select id="getAppProjectList" parameterClass="java.util.Map" resultMap="ProjectResult">
+	<![CDATA[select * from (SELECT rownum rnum,p_num,maintitle,currentpeople,regdate,limitpeople, TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE FROM (SELECT H_PROJECT_BOARD.* FROM H_PROJECT_PEOPLE,H_PROJECT_BOARD WHERE H_PROJECT_PEOPLE.EMAIL=#email# AND  H_PROJECT_PEOPLE.P_NUM=H_PROJECT_BOARD.P_NUM and H_PROJECT_PEOPLE.email!=H_PROJECT_BOARD.email) WHERE TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 ) where rnum >= #start_row# and rnum <= #end_row# order by regdate desc	]]>
+	
+	
+	</select>
+	
+	<select id="getEndProjectList" parameterClass="java.util.Map" resultMap="ProjectResult">
+	<![CDATA[select * from (SELECT rownum rnum,p_num,maintitle,currentpeople,regdate,limitpeople, TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE FROM (SELECT H_PROJECT_BOARD.* FROM H_PROJECT_PEOPLE,H_PROJECT_BOARD WHERE H_PROJECT_PEOPLE.EMAIL=#email# AND  H_PROJECT_PEOPLE.P_NUM=H_PROJECT_BOARD.P_NUM and H_PROJECT_PEOPLE.email!=H_PROJECT_BOARD.email) WHERE TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') < 0 ) where rnum >= #start_row# and rnum <= #end_row# order by regdate desc	]]>
+	
+	</select>
+	
+	
+	<select id="getMyProjectNumList" parameterClass="java.util.Map" resultMap="ProjectResult">
+	<![CDATA[select * from (select rownum rnum, p_num, maintitle, currentpeople, regdate, limitpeople, TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE from (select * from H_PROJECT_BOARD where TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 and email=#email#)) where rnum >=#start_row# and rnum <=#end_row# order by regdate desc]]>
+			
+	
+	</select>
+	
+	<select id="getAppProjectNumList" parameterClass="java.util.Map" resultMap="ProjectResult">
+	<![CDATA[select * from (SELECT rownum rnum,p_num,maintitle,currentpeople,regdate,limitpeople, TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE FROM (SELECT H_PROJECT_BOARD.* FROM H_PROJECT_PEOPLE,H_PROJECT_BOARD WHERE H_PROJECT_PEOPLE.EMAIL=#email# AND  H_PROJECT_PEOPLE.P_NUM=H_PROJECT_BOARD.P_NUM and H_PROJECT_PEOPLE.email!=H_PROJECT_BOARD.email) WHERE TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') >= 0 ) where rnum >= #start_row# and rnum <= #end_row# order by regdate desc	]]>
+	
+	
+	</select>
+	
+	<select id="getEndProjectNumList" parameterClass="java.util.Map" resultMap="ProjectResult">
+	<![CDATA[select * from (SELECT rownum rnum,p_num,maintitle,currentpeople,regdate,limitpeople, TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE FROM (SELECT H_PROJECT_BOARD.* FROM H_PROJECT_PEOPLE,H_PROJECT_BOARD WHERE H_PROJECT_PEOPLE.EMAIL=#email# AND  H_PROJECT_PEOPLE.P_NUM=H_PROJECT_BOARD.P_NUM and H_PROJECT_PEOPLE.email!=H_PROJECT_BOARD.email) WHERE TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') < 0 ) where rnum >= #start_row# and rnum <= #end_row# order by regdate desc	]]>
+	
+	</select>
+	
+	<select id="getOnChattingPeopleCount" parameterClass="java.lang.Integer" resultClass="java.lang.Integer">
+			select count(*) from H_CHATTING_PEOPLE where p_num=#projectNum# and flag=1
+	
+	</select>
+	
+	<select id="getChattingLogDate" parameterClass="java.util.Map" resultClass="java.util.Date">
+		<![CDATA[select chlogdate from H_PROJECT_PEOPLE where email=#email# and p_num=#projectNum# ]]>
+	
+	</select>
+	
+	<select id="getUnreadChaCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+	<![CDATA[ SELECT CASE WHEN FLAG = 0 THEN (SELECT COUNT(*) FROM H_CHATTING WHERE p_num=#projectNum# and regdate <= sysdate and regdate >=#chalogdate#) ELSE 0 END FROM H_CHATTING_PEOPLE  WHERE P_NUM=#projectNum# AND EMAIL=#email#	]]>
+	</select>
+	</sqlMap>
+	
+	

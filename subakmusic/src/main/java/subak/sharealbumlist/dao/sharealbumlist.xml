@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+    
+<sqlMap namespace="sharealbumlistSql">
+	<typeAlias alias="ShareAlbumListVO" type="subak.sharealbumlist.model.ShareAlbumListVO" />
+	<resultMap id="ShareAlbumListResult" class="ShareAlbumListVO">
+		<result property="listnum" column="A_NUM" />
+		<result property="subject" column="A_SUBJECT" />
+		<result property="writer" column="A_WRITER" />
+		<result property="imgpath" column="A_IMAGEPATH" />
+		<result property="readcount" column="A_READCOUNT" />
+		<result property="list" column="A_LIST" />
+		<result property="recomcount" column="A_RECOM"/>
+		
+		</resultMap>
+		
+		<select id="getShareAlbumCount" resultClass="java.lang.Integer">
+		
+		select count(*) from ALBUM 
+		
+		</select>
+		
+		<select id="getShareAlbumList" parameterClass="java.util.Map" resultMap="ShareAlbumListResult">
+		
+		<![CDATA[select * from (select rownum rnum, a_num, a_subject,a_writer,a_imagepath,a_readcount,a_list,a_recom from (select * from album order by a_regdate desc)) where rnum >= #startRow# and rnum <= #endRow#
+		]]>
+		
+		</select>
+
+		<select id="getPopAlbumList" resultMap="ShareAlbumListResult">
+		<![CDATA[select * from (select * from ALBUM order by A_RECOM desc) WHERE ROWNUM<=2
+		]]>	
+		
+		</select>
+
+</sqlMap>

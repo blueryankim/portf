@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="HomepageSql">
+	<typeAlias alias="HomepageVO" type="hooray.homepage.model.HomepageVO" />
+	<resultMap id="HomepageResult" class="HomepageVO">
+		<result property="projectNum" column="P_NUM"/>
+		<result property="email" column="EMAIL"/>
+		<result property="maintitle" column="MAINTITLE"/>
+		<result property="name" column="NAME"/>
+		<result property="subtitle" column="SUBTITLE"/>
+		<result property="currentpeople" column="CURRENTPEOPLE" />
+		<result property="limitpeople" column="LIMITPEOPLE"/>
+		<result property="leavedate" column="LEAVEDATE"/>
+		<result property="count" column="COUNT"/>
+		<result property="regdate" column="REGDATE"/>
+		<result property="categori" column="CATEGORI"/>
+		<result property="state" column="STATE"/>
+
+	</resultMap>
+	
+		<select id="getHomeHotList" resultMap="HomepageResult">
+			
+	    <![CDATA[SELECT * from	(select rownum rnum,p_num,categori,email,maintitle,name,subtitle,regdate,currentpeople,limitpeople,state,count,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE FROM (SELECT * FROM H_PROJECT_BOARD ORDER BY COUNT DESC))  where rnum >= 1 and rnum <=4	]]>	
+	    
+	    </select>
+		
+		<select id="getHomeNewList" resultMap="HomepageResult">
+		<![CDATA[SELECT * from	(select rownum rnum,p_num,categori,email,maintitle,name,subtitle,regdate,currentpeople,limitpeople,state,count,TO_DATE(perioddate,'YYYY-MM-DD') - TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD') AS LEAVEDATE FROM (SELECT * FROM H_PROJECT_BOARD ORDER BY REGDATE DESC))  where rnum >= 1 and rnum <=5	]]>	
+		
+		
+		</select>
+	
+	
+	</sqlMap>

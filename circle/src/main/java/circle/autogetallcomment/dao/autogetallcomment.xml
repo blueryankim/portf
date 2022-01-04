@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+ 
+	<sqlMap namespace="autogetallcommentSql">
+	<typeAlias alias="GetCommentCountVO" type="circle.autogetallcomment.model.GetCommentCountVO" />
+	<resultMap id="GetCommentCountVOResult" class="GetCommentCountVO">
+		<result property="num" column="NUM" />
+		<result property="commentcount" column="COMMENTCOUNT" />
+	
+
+	</resultMap>
+	
+	<typeAlias alias="AutoGetAllCommentVO" type="circle.autogetallcomment.model.AutoGetAllCommentVO" />
+	<resultMap id="AutoGetAllCommentVOResult" class="AutoGetAllCommentVO">
+		
+		<result property="num" column="C_NUM"/>
+		<result property="gulnum" column="C_GULNUM" />
+		<result property="id" column="C_ID"/>
+		<result property="writer" column="C_WRITER"/>
+		<result property="comment" column="C_COMMENT"/>
+		<result property="regdate" column="C_REGDATE"/>
+		<result property="profileimg" column="PROFILEIMG"/>
+		
+			
+	</resultMap>
+	
+	
+	<select id="getCommentCount" parameterClass="java.lang.String" resultMap="GetCommentCountVOResult">
+	select num,commentcount from POSTING WHERE ((OPENSCOPE='전체공개' OR OPENSCOPE='친구만보기' AND ((POSTING.ID IN (SELECT FRIEND_ID FROM FRIENDLIST WHERE me_id=#id# AND flag=1)) OR POSTING.id=#id#)) OR (OPENSCOPE='나만보기' AND POSTING.id=#id#))	
+		 
+	</select>
+	<select id="getCommentList" parameterClass="java.util.Map" resultMap="AutoGetAllCommentVOResult">
+		<![CDATA[select c_num,c_gulnum,c_id,c_writer,c_comment,c_regdate,profileimg FROM (SELECT * FROM  POSTINGCOMMENT WHERE (C_ID IN (select FRIEND_ID from FRIENDLIST where ME_ID=#id# AND FLAG=1) OR c_id=#id#) AND c_regdate > #startcommenttime# AND c_regdate <= #endcommenttime# order by c_regdate asc),MEMBER WHERE C_ID=ID  ]]>
+	</select>
+	
+	<update id="upCommentCount" parameterClass="java.lang.Integer">
+		update POSTING set COMMENTCOUNT=COMMENTCOUNT+1 where NUM=#gulnum# 
+	
+	
+	</update>
+	
+	<select id="getEndCommentTime" parameterClass="java.lang.String" resultClass="java.util.Date">
+		select MAX(C_REGDATE) from POSTINGCOMMENT WHERE C_ID IN (select FRIEND_ID from FRIENDLIST where ME_ID=#id# AND FLAG=1) OR c_id=#id#
+		
+	
+	</select>
+	
+	</sqlMap>

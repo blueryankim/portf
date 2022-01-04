@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+ 
+	<sqlMap namespace="uploadProjectSql">
+	
+	<typeAlias alias="UploadProjectVO" type="hooray.uploadproject.model.UploadProjectVO" />
+	<resultMap id="UploadProjectResult" class="UploadProjectVO">
+		
+		<result property="projectNum" column="P_NUM"/>
+		<result property="email" column="EMAIL" />
+		<result property="name" column="NAME"/>
+		<result property="categori" column="CATEGORI"/>
+		<result property="maintitle" column="MAINTITLE"/>
+		<result property="subtitle" column="SUBTITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="limitpeople" column="LIMITPEOPLE"/>
+		<result property="period" column="PERIODDATE"/>
+		<result property="lastimgnum" column="LASTIMGNUM"/>
+		<result property="state" column="STATE"/>
+		<result property="city" column="CITY"/>
+		
+			
+	</resultMap>
+	
+	<select id="getProjectNum" resultClass="java.lang.Integer">
+				select H_BOARD_SEQ.nextval from dual
+	</select>
+	
+	<insert id="insertProject" parameterClass="UploadProjectVO">
+				insert into H_PROJECT_BOARD(p_num,email,name,categori,maintitle,subtitle,content,limitpeople,perioddate,regdate,lastimgnum,state,city) values(#projectNum#,#email#,#name#,#categori#,#maintitle#,#subtitle#,#content#,#limitpeople#,#period#,sysdate,#lastimgnum#,#state#,#city#)
+	</insert>
+	
+	<insert id="applyProject" parameterClass="UploadProjectVO">
+	
+	<![CDATA[	insert into H_PROJECT_PEOPLE(pp_num,p_num,email,appdate,chlogdate) values(H_PROJECT_PEOPLE_SEQ.nextval,#projectNum#,#email#,sysdate,sysdate)]]> 
+	
+	</insert>
+	
+	<insert id="insertChatting" parameterClass="UploadProjectVO">
+		<![CDATA[	insert into H_CHATTING_PEOPLE(c_num,p_num,email) values(H_CHATTING_PEOPLE_SEQ.nextval,#projectNum#,#email#)]]> 
+	
+	</insert> 
+	
+	<select id="confirmProject" parameterClass="java.lang.Integer" resultClass="java.lang.Integer">
+				select count(*) from H_PROJECT_BOARD where p_num=#projectNum#
+	</select>
+	
+	<update id="updateProject" parameterClass="UploadProjectVO">
+				
+		<![CDATA[ update H_PROJECT_BOARD set categori=#categori#, maintitle=#maintitle#, subtitle=#subtitle#, content=#content#, limitpeople=#limitpeople#,perioddate=#period#,lastimgnum=#lastimgnum#, state=#state#, city=#city# where p_num=#projectNum# ]]>
+	
+	</update>
+	
+	</sqlMap>

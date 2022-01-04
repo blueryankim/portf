@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="bringgridpageSql">
+	<typeAlias alias="BringGridPageVO" type="finder.bringgridpage.model.BringGridPageVO" />
+	<resultMap id="BringGridPageResult" class="BringGridPageVO">
+	<result property="num" column="NUM" />
+	<result property="title" column="TITLE" />
+	<result property="subtitle" column="SUBTITLE"/>
+	<result property="regdate" column="REGDATE"/>
+	
+	</resultMap>
+	
+
+	<select id="getGridBookList" resultMap="BringGridPageResult">
+	<![CDATA[select * from (select rownum rnum, num, title, regdate, subtitle from (select * from posting where categori = 2 and scope = 2 order by regdate desc)) where rnum >= 1 and rnum <= 12
+	]]>
+	
+	</select>
+	
+	<select id="getGridAlbumList" resultMap="BringGridPageResult">
+	<![CDATA[select * from (select rownum rnum, num, title, regdate, subtitle from (select * from posting where categori = 3 and scope = 2 order by regdate desc)) where rnum >= 1 and rnum <= 12
+	]]>
+	
+	</select>
+	
+	<select id="getGridWritingList" resultMap="BringGridPageResult">
+	<![CDATA[select * from (select rownum rnum, num, title, regdate, subtitle from (select * from posting where categori = 1 and scope = 2 order by regdate desc)) where rnum >= 1 and rnum <= 12
+	]]>
+	
+	</select>
+	
+	<select id="getGridBookList2" parameterClass="java.util.Map" resultMap="BringGridPageResult">
+	<![CDATA[select * from (select rownum rnum, num, title, regdate, subtitle from (select * from posting where categori = 2 and scope = 2 and regdate < #lastcontenttime# order by regdate desc)) where rnum >= 1 and rnum <= 12
+	]]>
+	
+	</select>
+	
+	<select id="getGridAlbumList2" parameterClass="java.util.Map" resultMap="BringGridPageResult">
+	<![CDATA[select * from (select rownum rnum, num, title, regdate, subtitle from (select * from posting where categori = 3 and scope = 2 and  regdate < #lastcontenttime# order by regdate desc)) where rnum >= 1 and rnum <= 12
+	]]>
+	
+	</select>
+	
+	<select id="getGridWritingList2" parameterClass="java.util.Map" resultMap="BringGridPageResult">
+	<![CDATA[select * from (select rownum rnum, num, title, regdate, subtitle from (select * from posting where categori = 1 and scope = 2 and  regdate < #lastcontenttime# order by regdate desc)) where rnum >= 1 and rnum <= 12
+	]]>
+	
+	</select>
+	
+	
+	<select id="getMyBookCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from POSTING WHERE CATEGORI = 2 and ID =#id#
+	</select>
+	
+	<select id="getMyAlbumCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from POSTING WHERE CATEGORI = 3 and ID =#id#	
+	</select>
+	
+	<select id="getMyWritingCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from POSTING WHERE CATEGORI = 1 and ID =#id#
+	</select>
+	
+	
+	</sqlMap>

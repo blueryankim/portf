@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<bean id="PostContentVO" class="finder.postcontent.model.PostContentVO"/>
+<bean id="PostContentDao" class="finder.postcontent.dao.PostContentDaoImpl"
+		p:sqlMapClient-ref="BaseDBSqlMap"/> 
+<bean id="PostContentService" class="finder.postcontent.service.PostContentServiceImpl"
+		p:pcd-ref="PostContentDao"></bean>			
+<bean id="PostContentController" class="finder.postcontent.controller.PostContentController"
+		p:pcvo-ref="PostContentVO"
+		p:pcs-ref="PostContentService"/>
+</beans>
